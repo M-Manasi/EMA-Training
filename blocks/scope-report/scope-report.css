@@ -1,0 +1,169 @@
+/*
+ * Scope Report block — self-contained WKND-matched typography so the report
+ * renders correctly regardless of the global-design step. Body: Source Sans
+ * Pro; headings: Asar (serif). Falls back to web-safe stacks matching WKND.
+ */
+.scope-report {
+  --sr-sans: 'Source Sans Pro', 'Helvetica Neue', helvetica, arial, sans-serif;
+  --sr-serif: asar, georgia, 'Times New Roman', times, serif;
+  --sr-text: #202020;
+  --sr-muted: #6b6b6b;
+  --sr-line: #e5e5e5;
+  --sr-dark: #202020;
+  --sr-light: #ebebeb;
+  --sr-accent: #ffe600;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 24px;
+  font-family: var(--sr-sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sr-text);
+}
+
+.scope-report h1,
+.scope-report h2,
+.scope-report h3 {
+  font-family: var(--sr-serif);
+  font-weight: 400;
+  color: var(--sr-text);
+  line-height: 1.3;
+}
+
+.scope-report h1 {
+  font-size: 40px;
+  margin: 0 0 8px;
+}
+
+.scope-report .sr-subtitle {
+  font-family: var(--sr-sans);
+  font-size: 18px;
+  color: var(--sr-muted);
+  margin: 0 0 32px;
+}
+
+.scope-report h2 {
+  font-size: 30px;
+  margin: 48px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--sr-dark);
+}
+
+.scope-report h3 {
+  font-size: 22px;
+  margin: 24px 0 8px;
+}
+
+.scope-report p {
+  margin: 0 0 16px;
+}
+
+/* metric tiles */
+.scope-report .sr-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scope-report .sr-metrics li {
+  background: var(--sr-dark);
+  color: var(--sr-light);
+  padding: 20px;
+  text-align: center;
+}
+
+.scope-report .sr-metrics .sr-metric-value {
+  display: block;
+  font-family: var(--sr-serif);
+  font-size: 40px;
+  line-height: 1;
+  color: #fff;
+}
+
+.scope-report .sr-metrics .sr-metric-label {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+  color: var(--sr-light);
+}
+
+/* tables — wrapper allows horizontal scroll on narrow screens */
+.scope-report .sr-table-wrap {
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scope-report table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 16px;
+}
+
+.scope-report .sr-table-wrap table {
+  min-width: 480px;
+}
+
+.scope-report thead th {
+  text-align: left;
+  background: var(--sr-dark);
+  color: var(--sr-light);
+  padding: 10px 14px;
+  font-family: var(--sr-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+}
+
+.scope-report tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--sr-line);
+  vertical-align: top;
+}
+
+.scope-report tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.scope-report tbody td:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+/* small note / legend */
+.scope-report .sr-note {
+  font-size: 14px;
+  color: var(--sr-muted);
+  border-left: 3px solid var(--sr-accent);
+  padding: 8px 0 8px 16px;
+  margin: 16px 0;
+}
+
+/* accent chip for counts */
+.scope-report .sr-chip {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--sr-dark);
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (width >= 600px) {
+  .scope-report {
+    padding: 40px 32px;
+  }
+
+  .scope-report .sr-metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
