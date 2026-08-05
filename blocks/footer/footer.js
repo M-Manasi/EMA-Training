@@ -1,6 +1,37 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+// code base path for repo-hosted icons (works local + preview + live)
+const ICONS = `${window.hlx?.codeBasePath || ''}/icons`;
+
+/** Replace the "WKND" text logo link with the light logo image. */
+function decorateFooterLogo(brand) {
+  const link = brand.querySelector('a');
+  if (!link) return;
+  const img = document.createElement('img');
+  img.src = `${ICONS}/wknd-logo-light.svg`;
+  img.alt = 'WKND Logo';
+  img.width = 120;
+  link.textContent = '';
+  link.append(img);
+}
+
+/** Replace social link text (Facebook/Twitter/Instagram) with its icon. */
+function decorateSocial(socialSection) {
+  socialSection.querySelectorAll('ul a').forEach((a) => {
+    const label = a.textContent.trim();
+    const name = label.toLowerCase();
+    if (!['facebook', 'twitter', 'instagram'].includes(name)) return;
+    a.textContent = '';
+    const img = document.createElement('img');
+    img.src = `${ICONS}/social-${name}.svg`;
+    img.alt = label;
+    img.width = 22;
+    img.height = 22;
+    a.append(img);
+  });
+}
+
 /**
  * loads and decorates the footer
  * @param {Element} block The footer block element
@@ -25,6 +56,12 @@ export default async function decorate(block) {
     const section = footer.children[i];
     if (section) section.classList.add(`footer-${c}`);
   });
+
+  // inject repo-hosted images (logo + social icons) from codeBasePath
+  const brand = footer.querySelector('.footer-brand');
+  if (brand) decorateFooterLogo(brand);
+  const social = footer.querySelector('.footer-social');
+  if (social) decorateSocial(social);
 
   // group brand + nav + social into a top row for layout
   const topRow = document.createElement('div');
