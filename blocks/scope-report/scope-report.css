@@ -1,0 +1,293 @@
+/*
+ * Scope Report block — self-contained WKND-matched typography so the report
+ * renders correctly regardless of the global-design step. Body: Source Sans
+ * Pro; headings: Asar (serif). Falls back to web-safe stacks matching WKND.
+ */
+.scope-report {
+  --sr-sans: 'Source Sans Pro', 'Helvetica Neue', helvetica, arial, sans-serif;
+  --sr-serif: asar, georgia, 'Times New Roman', times, serif;
+  --sr-text: #202020;
+  --sr-muted: #6b6b6b;
+  --sr-line: #e5e5e5;
+  --sr-dark: #202020;
+  --sr-light: #ebebeb;
+  --sr-accent: #ffea00;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 56px 24px 48px;
+  font-family: var(--sr-sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sr-text);
+}
+
+.scope-report h1,
+.scope-report h2,
+.scope-report h3 {
+  font-family: var(--sr-serif);
+  font-weight: 400;
+  color: var(--sr-text);
+  line-height: 1.3;
+}
+
+.scope-report h1 {
+  font-size: 40px;
+  margin: 0 0 8px;
+}
+
+/* accent underline flourish under the main title */
+.scope-report .sr-subtitle {
+  font-family: var(--sr-sans);
+  font-size: 18px;
+  color: var(--sr-muted);
+  margin: 0 0 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--sr-line);
+}
+
+.scope-report h2 {
+  position: relative;
+  font-size: 30px;
+  margin: 56px 0 20px;
+  padding-bottom: 10px;
+}
+
+/* yellow accent bar under each section heading */
+.scope-report h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  background: var(--sr-accent);
+}
+
+.scope-report h3 {
+  font-size: 22px;
+  margin: 24px 0 8px;
+}
+
+.scope-report p {
+  margin: 0 0 16px;
+}
+
+/* ---- metric tiles ---- */
+.scope-report .sr-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scope-report .sr-metrics li {
+  background: var(--sr-dark);
+  color: var(--sr-light);
+  padding: 24px 20px;
+  text-align: center;
+  border: 2px solid var(--sr-dark);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  cursor: default;
+}
+
+.scope-report .sr-metrics li:hover {
+  background: var(--sr-accent);
+  border-color: var(--sr-accent);
+  transform: translateY(-4px);
+}
+
+.scope-report .sr-metrics .sr-metric-value {
+  display: block;
+  font-family: var(--sr-serif);
+  font-size: 44px;
+  line-height: 1;
+  color: #fff;
+  transition: color 0.2s ease;
+}
+
+.scope-report .sr-metrics .sr-metric-label {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+  color: var(--sr-light);
+  transition: color 0.2s ease;
+}
+
+/* on hover the tile turns yellow — invert text to dark for contrast */
+.scope-report .sr-metrics li:hover .sr-metric-value,
+.scope-report .sr-metrics li:hover .sr-metric-label {
+  color: var(--sr-text);
+}
+
+/* ---- locale mini-tiles (compact metric tiles) ---- */
+.scope-report .sr-locale-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 16px 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.scope-report .sr-locale-tiles li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: #f4f4f4;
+  border: 2px solid #f4f4f4;
+  text-align: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  cursor: default;
+}
+
+.scope-report .sr-locale-tiles li:hover {
+  background: var(--sr-accent);
+  border-color: var(--sr-accent);
+  transform: translateY(-3px);
+}
+
+.scope-report .sr-locale-tiles .sr-locale-count {
+  font-family: var(--sr-serif);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--sr-text);
+}
+
+.scope-report .sr-locale-tiles .sr-locale-name {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sr-muted);
+}
+
+.scope-report .sr-locale-tiles li:hover .sr-locale-name {
+  color: var(--sr-text);
+}
+
+/* ---- tables ---- */
+.scope-report .sr-table-wrap {
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  border: 1px solid var(--sr-line);
+  -webkit-overflow-scrolling: touch;
+}
+
+.scope-report table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 16px;
+}
+
+.scope-report .sr-table-wrap table {
+  min-width: 480px;
+}
+
+.scope-report thead th {
+  text-align: left;
+  background: var(--sr-dark);
+  color: var(--sr-light);
+  padding: 12px 16px;
+  font-family: var(--sr-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.scope-report tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--sr-line);
+  vertical-align: top;
+}
+
+.scope-report tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.scope-report tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* yellow row highlight on hover — matches WKND nav hover */
+.scope-report tbody tr:hover {
+  background: var(--sr-accent);
+}
+
+.scope-report tbody tr:hover td {
+  color: var(--sr-text);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.scope-report tbody td:first-child {
+  font-weight: 600;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.scope-report tbody td:nth-child(2) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* status pill in the block-variant table */
+.scope-report .sr-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.scope-report .sr-status-ok {
+  background: #e3f4e3;
+  color: #1a6b1a;
+}
+
+.scope-report .sr-status-custom {
+  background: #fff3cd;
+  color: #7a5b00;
+}
+
+.scope-report .sr-status-done {
+  background: var(--sr-dark);
+  color: #fff;
+}
+
+/* ---- note / legend ---- */
+.scope-report .sr-note {
+  font-size: 14px;
+  color: var(--sr-muted);
+  background: #fafafa;
+  border-left: 4px solid var(--sr-accent);
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+
+@media (width >= 600px) {
+  .scope-report {
+    padding: 72px 32px 56px;
+  }
+
+  .scope-report h1 {
+    font-size: 48px;
+  }
+
+  .scope-report .sr-metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .scope-report .sr-locale-tiles {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

@@ -1,20 +1,142 @@
+/* WKND footer */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #202020;
+  color: #ebebeb;
+  font-size: 14px;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer {
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 16px 24px 24px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
+footer .footer a:any-link {
+  color: #ebebeb;
+  text-decoration: none;
+}
+
+/* ---- top row: brand | nav | social ----
+   mobile: logo (left) + nav column (right) side by side, social below */
+footer .footer-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px 48px;
+  align-items: start;
+  padding: 24px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+footer .footer-brand img {
+  width: 88px;
+  height: auto;
+  display: block;
+}
+
+footer .footer-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-transform: uppercase;
+}
+
+/* "Home" (first item) is hidden in the footer nav on mobile, matching source */
+footer .footer-nav ul > li:first-child {
+  display: none;
+}
+
+footer .footer-nav a:hover {
+  color: #f60;
+}
+
+/* social — spans full width below the logo+nav row on mobile */
+footer .footer-social {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+footer .footer-social > p {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+footer .footer-social ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+footer .footer-social img {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-social a {
+  display: inline-flex;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+footer .footer-social a:hover {
+  opacity: 0.7;
+}
+
+/* ---- legal ---- */
+footer .footer-legal {
+  padding: 24px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgb(235 235 235 / 80%);
+}
+
+footer .footer-legal p + p {
+  margin-top: 16px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-legal a {
+  text-decoration: underline;
+}
+
+/* ---- desktop ---- */
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer {
+    padding: 16px 32px 24px;
+  }
+
+  footer .footer-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  footer .footer-brand img {
+    width: 120px;
+  }
+
+  /* nav horizontal on desktop */
+  footer .footer-nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  footer .footer-social {
+    grid-column: auto;
+    margin-left: auto;
   }
 }
