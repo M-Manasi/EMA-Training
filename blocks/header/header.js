@@ -4,6 +4,44 @@ import { loadFragment } from '../fragment/fragment.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// code base path for repo-hosted icons (works local + preview + live)
+const ICONS = `${window.hlx?.codeBasePath || ''}/icons`;
+
+/**
+ * Replaces the "WKND" text logo link with the logo image (served from /icons).
+ * @param {Element} navBrand the brand section
+ */
+function decorateLogo(navBrand) {
+  const link = navBrand.querySelector('a');
+  if (!link) return;
+  const img = document.createElement('img');
+  img.src = `${ICONS}/wknd-logo.svg`;
+  img.alt = 'WKND Logo';
+  img.width = 128;
+  link.textContent = '';
+  link.append(img);
+}
+
+/**
+ * Builds a flag <img> for a locale link. The link text starts with a 2-letter
+ * country code (e.g. "US en-US"); we strip it and prepend the flag image.
+ * @param {Element} link the locale anchor
+ */
+function decorateLocaleFlag(link) {
+  const text = link.textContent.trim();
+  const match = text.match(/^([A-Z]{2})\s+(.*)$/);
+  if (!match) return;
+  const [, code, label] = match;
+  link.textContent = '';
+  const img = document.createElement('img');
+  img.src = `${ICONS}/flag-${code}.svg`;
+  img.alt = label;
+  img.width = 20;
+  const span = document.createElement('span');
+  span.textContent = label;
+  link.append(img, span);
+}
+
 /**
  * Closes the mobile nav on Escape.
  * @param {Event} e keydown event
@@ -84,6 +122,9 @@ function decorateLocaleSelector(navTools) {
   list.replaceWith(localeWrapper);
   localeWrapper.append(list);
 
+  // build the flag image for every locale entry from its country code
+  list.querySelectorAll('li a').forEach((a) => decorateLocaleFlag(a));
+
   // find current locale (first entry) to seed the toggle label + flag
   const currentEntry = list.querySelector('li a');
   const toggle = document.createElement('button');
@@ -95,7 +136,7 @@ function decorateLocaleSelector(navTools) {
     const flag = currentEntry.querySelector('img');
     if (flag) toggle.append(flag.cloneNode(true));
     const span = document.createElement('span');
-    span.textContent = currentEntry.textContent.trim();
+    span.textContent = currentEntry.querySelector('span')?.textContent.trim() || currentEntry.textContent.trim();
     toggle.append(span);
   } else {
     toggle.textContent = 'en-US';
@@ -145,7 +186,7 @@ export default async function decorate(block) {
     if (section) section.classList.add(`nav-${c}`);
   });
 
-  // brand: strip button styling from the logo link
+  // brand: strip button styling from the logo link, then inject the logo image
   const navBrand = nav.querySelector('.nav-brand');
   if (navBrand) {
     const brandLink = navBrand.querySelector('a');
@@ -154,6 +195,7 @@ export default async function decorate(block) {
       const container = brandLink.closest('.button-container');
       if (container) container.className = '';
     }
+    decorateLogo(navBrand);
   }
 
   // tools: sign-in link + locale selector, plus the JS-built search
