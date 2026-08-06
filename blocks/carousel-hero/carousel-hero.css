@@ -76,6 +76,11 @@ main .section.carousel-hero-container > div {
   background-color: var(--background-color);
   color: var(--text-color);
   padding: 0 14px;
+  box-sizing: border-box;
+
+  /* reserve height for the tallest slide's text so font-load reflow does
+     not shift the sections below (CLS). */
+  min-height: 310px;
 }
 
 .carousel-hero .carousel-hero-slide-content h2 {
@@ -216,6 +221,7 @@ main .section.carousel-hero-container > div {
     max-width: 1192px;
     margin: -180px auto 0;
     padding: 0 28px;
+    min-height: 0; /* desktop box overlaps the image; no reserved height needed */
   }
 
   .carousel-hero .carousel-hero-navigation-buttons {
