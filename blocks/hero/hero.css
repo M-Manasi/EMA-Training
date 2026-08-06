@@ -1,37 +1,130 @@
-.hero-container .hero-wrapper {
-  max-width: unset;
+/*
+ * hero — visual design migrated from WKND (wknd.site/us/en), the
+ * "Climbing New Zealand" image-bottom teaser. All values (image heights,
+ * overlap offset, box padding, typography, colors) are taken from
+ * getComputedStyle on the source teaser across breakpoints.
+ *
+ * Source layout: full-bleed banner image with a content box below it. On
+ * desktop the box is white and pulled up to overlap the bottom of the image;
+ * below 1200px the box is transparent and flows naturally under the image.
+ * CTA is a square yellow uppercase button.
+ */
+
+/* Full-bleed: neutralise the section's max-width / gutter for the hero only.
+   The hero shares its section with a "Next Adventures" heading, so scope the
+   override to .hero-wrapper and leave sibling default content constrained.
+   Specificity must beat the global `main > .section > div` rule. */
+main .section.hero-container > .hero-wrapper {
+  max-width: none;
   padding: 0;
 }
 
-.hero {
-  position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+.hero.block {
+  display: flex;
+  flex-direction: column;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
-.hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
-}
-
-.hero img {
-  object-fit: cover;
+/* --- Image: full-bleed, natural aspect on mobile. --- */
+.hero .hero-image {
   width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
-@media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
+.hero .hero-image picture {
+  display: block;
+}
+
+.hero .hero-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1293 / 862;
+  object-fit: cover;
+}
+
+/* --- Content box: dark text, transparent bg, flows below the image. --- */
+.hero .hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 14px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.hero .hero-content h2 {
+  margin: 18px 0 0;
+  padding: 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  color: var(--text-color);
+}
+
+.hero .hero-content p {
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 31.5px;
+  color: var(--text-color);
+}
+
+/* CTA paragraph (the <p> wrapping the "See Trip" link). */
+.hero .hero-content p.hero-cta {
+  margin: 18px 0;
+  line-height: 0;
+}
+
+/* CTA button — square yellow, uppercase, dark text. */
+.hero .hero-content p.hero-cta > a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hero .hero-content p.hero-cta > a:hover,
+.hero .hero-content p.hero-cta > a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* --- Tablet / mid: taller fixed-height image. --- */
+@media (width >= 600px) {
+  .hero .hero-image img {
+    height: 400px;
+    aspect-ratio: auto;
+  }
+}
+
+/* --- Desktop: fixed-height image + overlapping white content box. --- */
+@media (width >= 1200px) {
+  .hero.block {
+    align-items: center;
+  }
+
+  .hero .hero-image img {
+    height: 640px;
+  }
+
+  .hero .hero-content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1192px;
+    margin: -180px auto 0;
+    padding: 0 28px;
+    background-color: var(--background-color);
   }
 }

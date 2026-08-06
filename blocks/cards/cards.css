@@ -1,27 +1,97 @@
+/* Cards block — visual design migrated from WKND (div.image-list.list)
+ * Values extracted from source computed styles (see migration-work/cards-extracted.css).
+ * DOM contract (from cards.js): .cards > ul > li > (.cards-card-image > picture > img)
+ *                                                + (.cards-card-body > h3 > a + p)
+ * Mobile-first: 1 col (base) -> 2 cols (>=600) -> 4 cols (>=900), matching WKND reflow.
+ */
+
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px; /* row-gap 32px (card bottom margin), column-gap 14px (card gutter) */
 }
 
+/* Card: plain — WKND cards have no border, background, shadow, or radius */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
 }
 
-.cards .cards-card-body {
-  margin: 16px;
-}
-
+/* Image: consistent 13/10 crop (WKND forces 260x200), cover-cropped, flush top */
 .cards .cards-card-image {
   line-height: 0;
 }
 
-.cards > ul > li img {
+.cards .cards-card-image img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 13 / 10; /* 260 / 200 from source */
   object-fit: cover;
+  object-position: center center;
+  border-radius: 0;
+}
+
+/* Body: title + description sit directly under the image */
+.cards .cards-card-body {
+  margin: 0;
+}
+
+/* Title — WKND: Source Sans Pro 600, UPPERCASE, #202020, 18/27.
+ * Overrides global h3 (which defaults to Asar serif / weight 400). */
+.cards .cards-card-body h3 {
+  margin: 2px 0 0; /* ~2px below the image in source */
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color); /* #202020 */
+}
+
+.cards .cards-card-body h3 a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* WKND title link has no distinct hover state — keep color, no underline */
+.cards .cards-card-body h3 a:hover,
+.cards .cards-card-body h3 a:focus-visible {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Description — WKND: Source Sans Pro 400, UPPERCASE, dimgray, 14/21,
+ * single-line ellipsis truncation. */
+.cards .cards-card-body p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: #696969; /* rgb(105, 105, 105) — no brand token */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablet: 2 columns (matches WKND at 768px) */
+@media (width >= 600px) {
+  .cards > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: 4 columns (matches WKND at >=900px) */
+@media (width >= 900px) {
+  .cards > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

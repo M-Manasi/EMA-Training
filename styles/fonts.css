@@ -29,15 +29,7 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* fallback fonts (size-adjusted to reduce layout shift) */
-@font-face {
-  font-family: source-sans-pro-fallback;
-  size-adjust: 96%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: asar-fallback;
-  size-adjust: 104%;
-  src: local('Georgia');
-}
+/* NOTE: the metric-matched fallback @font-face rules
+   (source-sans-pro-fallback, asar-fallback) live in styles.css so they apply
+   at first paint (this file is deferred on mobile). Keeping only the real web
+   fonts here. */

@@ -1,0 +1,231 @@
+/*
+ * carousel-hero — visual design migrated from WKND (wknd.site/us/en).
+ * Values (image height, overlap offset, box padding, typography, colors)
+ * are taken from getComputedStyle on the source carousel across breakpoints.
+ *
+ * Source layout: full-bleed image with a white content box (dark text)
+ * stacked below it. On desktop the box is pulled up to overlap the bottom
+ * of the image. CTA is a square yellow uppercase button. Dots are centered
+ * below; small black chevron arrows sit at the right of the controls bar.
+ */
+
+/* Full-bleed: neutralise the section's max-width / gutter for this block. */
+main .section.carousel-hero-container {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+main .section.carousel-hero-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+.carousel-hero .carousel-hero-slides-container {
+  position: relative;
+}
+
+.carousel-hero .carousel-hero-slides,
+.carousel-hero .carousel-hero-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Horizontal scroll-snap track — one slide visible at a time. */
+.carousel-hero .carousel-hero-slides {
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+.carousel-hero .carousel-hero-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-hero .carousel-hero-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+/* --- Image: full-bleed, 16:9 on mobile/tablet. --- */
+.carousel-hero .carousel-hero-slide-image {
+  width: 100%;
+}
+
+.carousel-hero .carousel-hero-slide-image picture {
+  display: block;
+}
+
+.carousel-hero .carousel-hero-slide-image picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* --- Content box: white, dark text, sits below the image. --- */
+.carousel-hero .carousel-hero-slide-content {
+  position: relative;
+  z-index: 1;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 0 14px;
+  box-sizing: border-box;
+
+  /* reserve height for the tallest slide's text so font-load reflow does
+     not shift the sections below (CLS). */
+  min-height: 310px;
+}
+
+.carousel-hero .carousel-hero-slide-content h1,
+.carousel-hero .carousel-hero-slide-content h2 {
+  margin: 18px 0 0;
+  padding: 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  color: var(--text-color);
+}
+
+.carousel-hero .carousel-hero-slide-content p {
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 31.5px;
+  color: var(--text-color);
+}
+
+/* CTA paragraph (the <p> wrapping the link). */
+.carousel-hero .carousel-hero-slide-content p:has(> a) {
+  margin: 18px 0;
+  line-height: 0;
+}
+
+/* CTA button — square yellow, uppercase, dark text. */
+.carousel-hero .carousel-hero-slide-content p > a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.carousel-hero .carousel-hero-slide-content p > a:hover,
+.carousel-hero .carousel-hero-slide-content p > a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* --- Controls bar: centered dots, arrows at the right. --- */
+.carousel-hero nav[aria-label='Carousel Slide Controls'] {
+  position: relative;
+  margin-top: 9px;
+}
+
+.carousel-hero .carousel-hero-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  line-height: 0;
+}
+
+.carousel-hero .carousel-hero-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(175 175 175);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Active slide indicator (JS marks the current dot as disabled). */
+.carousel-hero .carousel-hero-slide-indicator button:disabled,
+.carousel-hero .carousel-hero-slide-indicator button:hover,
+.carousel-hero .carousel-hero-slide-indicator button:focus-visible {
+  background-color: rgb(0 0 0 / 80%);
+}
+
+/* Prev/next chevron arrows — small, black, no background. */
+.carousel-hero .carousel-hero-navigation-buttons {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-hero-navigation-buttons button {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--text-color);
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button.slide-next::after {
+  transform: translate(-70%, -50%) rotate(45deg);
+}
+
+/* --- Desktop: fixed-height image + overlapping, centered content box. --- */
+@media (width >= 1200px) {
+  .carousel-hero .carousel-hero-slide-image picture > img {
+    height: 640px;
+    aspect-ratio: auto;
+  }
+
+  .carousel-hero .carousel-hero-slide-content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1192px;
+    margin: -180px auto 0;
+    padding: 0 28px;
+    min-height: 0; /* desktop box overlaps the image; no reserved height needed */
+  }
+
+  .carousel-hero .carousel-hero-navigation-buttons {
+    right: calc((100% - 1192px) / 2);
+  }
+}
