@@ -63,6 +63,11 @@ const MEDIA_MAP = {
   'adobe-waadobe-wa-mg-2466.jpeg': 'media_12abbe43148d06aadca747b69d2ceda6f8cd32888.jpg',
   'adobestock-238230356.jpeg': 'media_1429fa23d65c95bb9a5e30c2784695e1f51911688.jpg',
   'adobestock-278302117.jpeg': 'media_168d4df680b92c68b36d08772450bd3d2ec2d19ce.jpg',
+  // article (magazine) images
+  'surfer-back-from-the-ocean.jpeg': 'media_1ffe5e90ed6fd33168ccf31df7d3d8e436adb5108.jpg',
+  'majestic-rainbow.jpeg': 'media_105a7bf63325289ed49f1e9a74a1dfd1885008de0.jpg',
+  'northern-lights.jpeg': 'media_1be586d69308beff574f2ca3c1bf401b7f4a9372d.jpg',
+  'jacob-wester.jpeg': 'media_18848bc6b96d02b09a1b6f5c5164824b4e04a5589.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */

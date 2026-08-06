@@ -354,3 +354,83 @@ main .section.grey {
   margin: 0;
   padding: 40px 0;
 }
+
+/* ---- magazine article layout ----
+   The article section stacks its wrappers on mobile; on desktop it becomes a
+   two-column grid — article body (article-header + default content + author
+   bio) on the left, the "related" sidebar on the right (matching WKND's
+   ~72/28 split). The `.article` class is applied via section metadata. */
+main .section.article > div {
+  max-width: 1200px;
+}
+
+main .section.article .related-wrapper {
+  margin-top: 32px;
+}
+
+@media (width >= 900px) {
+  main .section.article {
+    display: grid;
+    grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 32px;
+    column-gap: 48px;
+  }
+
+  main .section.article > div {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* article body wrappers occupy the left column, in flow order */
+  main .section.article > .default-content-wrapper,
+  main .section.article > .article-header-wrapper,
+  main .section.article > .author-bio-wrapper {
+    grid-column: 1;
+  }
+
+  /* the sidebar spans the right column across the article's rows */
+  main .section.article > .related-wrapper {
+    grid-column: 2;
+    grid-row: 1 / 999;
+    margin-top: 0;
+  }
+}
+
+/* ---- article body typography (WKND magazine) ---- */
+main .section.article p {
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 1.6;
+}
+
+main .section.article blockquote {
+  margin: 24px 0;
+  padding: 8px 0 8px 24px;
+  border-left: 3px solid var(--accent-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-style: normal;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+/* article section headings ("The front", "Clear skies", …) — Asar with the
+   WKND yellow underline accent, matching the source's cmp-title--underline. */
+main .section.article .default-content-wrapper h2 {
+  margin: 27px 0 13.5px;
+  font-size: 36px;
+}
+
+main .section.article .default-content-wrapper h2::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+main .section.article .default-content-wrapper img {
+  width: 100%;
+  margin: 8px 0;
+}

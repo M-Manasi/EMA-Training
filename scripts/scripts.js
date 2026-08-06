@@ -195,6 +195,17 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main);
     document.body.classList.add('appear');
+
+    // Prioritise the LCP image: the first image in the first section (e.g. an
+    // article's hero) is usually the LCP element. Blocks that manage their own
+    // LCP image already set eager/high on it; this covers default-content
+    // images the boilerplate would otherwise leave at default priority.
+    const firstImg = main.querySelector('.section img');
+    if (firstImg && !firstImg.getAttribute('fetchpriority')) {
+      firstImg.setAttribute('loading', 'eager');
+      firstImg.setAttribute('fetchpriority', 'high');
+    }
+
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 
