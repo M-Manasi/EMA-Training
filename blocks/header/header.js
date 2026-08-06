@@ -219,6 +219,21 @@ export default async function decorate(block) {
     </button>`;
   hamburger.addEventListener('click', () => toggleMenu(nav));
 
+  // close (×) button inside the drawer + backdrop, so the mobile menu is
+  // always dismissable (the open drawer would otherwise cover the hamburger)
+  if (navSections) {
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'nav-drawer-close';
+    close.setAttribute('aria-label', 'Close navigation');
+    close.innerHTML = '&times;';
+    close.addEventListener('click', () => toggleMenu(nav, false));
+    navSections.prepend(close);
+  }
+  const backdrop = document.createElement('div');
+  backdrop.className = 'nav-backdrop';
+  backdrop.addEventListener('click', () => toggleMenu(nav, false));
+
   // build the two bars: dark utility bar (tools) on top, white main bar below
   const utilityBar = document.createElement('div');
   utilityBar.className = 'nav-utility';
@@ -231,7 +246,7 @@ export default async function decorate(block) {
   if (navSections) mainBar.append(navSections);
   mainBar.append(search);
 
-  nav.append(utilityBar, mainBar);
+  nav.append(utilityBar, mainBar, backdrop);
   nav.setAttribute('aria-expanded', 'false');
 
   // reset nav state when crossing the desktop/mobile breakpoint
