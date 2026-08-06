@@ -74,24 +74,29 @@ footer .footer-social ul {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 16px;
+  gap: 8px;
 }
 
 footer .footer-social img {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: block;
 }
 
+/* dark icons in light-grey square boxes, matching WKND */
 /* stylelint-disable-next-line no-descending-specificity */
 footer .footer-social a {
   display: inline-flex;
-  opacity: 1;
-  transition: opacity 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #ebebeb;
+  transition: background-color 0.2s ease;
 }
 
 footer .footer-social a:hover {
-  opacity: 0.7;
+  background: #ffea00;
 }
 
 /* ---- legal ---- */

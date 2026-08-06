@@ -23,11 +23,12 @@ function decorateSocial(socialSection) {
     const name = label.toLowerCase();
     if (!['facebook', 'twitter', 'instagram'].includes(name)) return;
     a.textContent = '';
+    // dark icon on a light box, matching WKND
     const img = document.createElement('img');
-    img.src = `${ICONS}/social-${name}.svg`;
+    img.src = `${ICONS}/social-${name}-dark.svg`;
     img.alt = label;
-    img.width = 22;
-    img.height = 22;
+    img.width = 20;
+    img.height = 20;
     a.append(img);
   });
 }

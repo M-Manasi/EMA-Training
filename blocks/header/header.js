@@ -22,24 +22,26 @@ function decorateLogo(navBrand) {
   link.append(img);
 }
 
+// country code → display name, matching WKND's locale panel
+const COUNTRY_NAMES = {
+  US: 'United States',
+  CA: 'Canada',
+  CH: 'Switzerland',
+  DE: 'Germany',
+  FR: 'France',
+  ES: 'Spain',
+  IT: 'Italy',
+};
+
 /**
- * Builds a flag <img> for a locale link. The link text starts with a 2-letter
- * country code (e.g. "US en-US"); we strip it and prepend the flag image.
+ * Parses a locale link's "CC xx-YY" text into { code, locale, href, label }.
  * @param {Element} link the locale anchor
  */
-function decorateLocaleFlag(link) {
+function parseLocaleLink(link) {
   const text = link.textContent.trim();
   const match = text.match(/^([A-Z]{2})\s+(.*)$/);
-  if (!match) return;
-  const [, code, label] = match;
-  link.textContent = '';
-  const img = document.createElement('img');
-  img.src = `${ICONS}/flag-${code}.svg`;
-  img.alt = label;
-  img.width = 20;
-  const span = document.createElement('span');
-  span.textContent = label;
-  link.append(img, span);
+  if (!match) return null;
+  return { code: match[1], locale: match[2].trim(), href: link.getAttribute('href') };
 }
 
 /**
@@ -108,56 +110,147 @@ function buildSearchForm() {
 }
 
 /**
- * Wires up the locale dropdown toggle in the utility bar.
- * @param {Element} localeWrapper the container holding the locale list
+ * Builds the Sign In modal (matches WKND: dark panel, Asar heading with yellow
+ * underline, Welcome Back, username/password fields, forgot link, yellow
+ * submit). Returns { modal, open, close }.
+ */
+function buildSignInModal() {
+  const modal = document.createElement('div');
+  modal.className = 'nav-signin-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-label', 'Sign In');
+  modal.hidden = true;
+  modal.innerHTML = `
+    <div class="nav-signin-overlay"></div>
+    <div class="nav-signin-dialog">
+      <button type="button" class="nav-signin-close" aria-label="Close sign in">&times;</button>
+      <h2 class="nav-signin-title">Sign In</h2>
+      <p class="nav-signin-welcome">Welcome Back</p>
+      <form class="nav-signin-form">
+        <label class="nav-signin-field">
+          <span class="nav-signin-sr">Username</span>
+          <input type="text" name="username" placeholder="USERNAME" autocomplete="username">
+        </label>
+        <label class="nav-signin-field">
+          <span class="nav-signin-sr">Password</span>
+          <input type="password" name="password" placeholder="PASSWORD" autocomplete="current-password">
+        </label>
+        <a class="nav-signin-forgot" href="#forgot-password">Forgot your password?</a>
+        <button type="submit" class="nav-signin-submit">Sign In</button>
+      </form>
+    </div>`;
+
+  const close = () => {
+    modal.hidden = true;
+    document.body.style.overflowY = '';
+  };
+  const open = () => {
+    modal.hidden = false;
+    document.body.style.overflowY = 'hidden';
+    modal.querySelector('input')?.focus();
+  };
+  modal.querySelector('.nav-signin-overlay').addEventListener('click', close);
+  modal.querySelector('.nav-signin-close').addEventListener('click', close);
+  modal.querySelector('.nav-signin-form').addEventListener('submit', (e) => e.preventDefault());
+  document.addEventListener('keydown', (e) => { if (e.code === 'Escape' && !modal.hidden) close(); });
+
+  return { modal, open, close };
+}
+
+/**
+ * Wires up the locale selector: a flag+code toggle in the utility bar that
+ * opens a WKND-style panel of country rows (flag + country name + pipe-
+ * separated locale links), built from the authored locale list.
+ * @param {Element} navTools the tools section holding the raw locale <ul>
  */
 function decorateLocaleSelector(navTools) {
-  const list = navTools.querySelector('ul');
-  if (!list) return;
-  list.classList.add('nav-locale-list');
+  const rawList = navTools.querySelector('ul');
+  if (!rawList) return;
 
-  // wrap the toggle + list in a dedicated container so it can sit after Sign In
-  const localeWrapper = document.createElement('div');
-  localeWrapper.className = 'nav-locale';
-  list.replaceWith(localeWrapper);
-  localeWrapper.append(list);
+  // parse the authored locale links, preserving order
+  const entries = [...rawList.querySelectorAll('li a')]
+    .map(parseLocaleLink)
+    .filter(Boolean);
+  if (!entries.length) return;
 
-  // build the flag image for every locale entry from its country code
-  list.querySelectorAll('li a').forEach((a) => decorateLocaleFlag(a));
+  // group by country code (keeps first-seen order)
+  const groups = [];
+  entries.forEach((e) => {
+    let g = groups.find((x) => x.code === e.code);
+    if (!g) { g = { code: e.code, items: [] }; groups.push(g); }
+    g.items.push(e);
+  });
 
-  // find current locale (first entry) to seed the toggle label + flag
-  const currentEntry = list.querySelector('li a');
+  const wrapper = document.createElement('div');
+  wrapper.className = 'nav-locale';
+
+  // toggle: current locale (first entry) flag + code
+  const current = entries[0];
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'nav-locale-toggle';
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-haspopup', 'true');
-  if (currentEntry) {
-    const flag = currentEntry.querySelector('img');
-    if (flag) toggle.append(flag.cloneNode(true));
-    const span = document.createElement('span');
-    span.textContent = currentEntry.querySelector('span')?.textContent.trim() || currentEntry.textContent.trim();
-    toggle.append(span);
-  } else {
-    toggle.textContent = 'en-US';
-  }
+  const toggleFlag = document.createElement('img');
+  toggleFlag.src = `${ICONS}/flag-${current.code}.svg`;
+  toggleFlag.alt = COUNTRY_NAMES[current.code] || current.code;
+  toggleFlag.width = 20;
+  const toggleLabel = document.createElement('span');
+  toggleLabel.textContent = current.locale;
+  toggle.append(toggleFlag, toggleLabel);
+
+  // panel: one row per country
+  const panel = document.createElement('div');
+  panel.className = 'nav-locale-panel';
+  groups.forEach((g) => {
+    const row = document.createElement('div');
+    row.className = 'nav-locale-country';
+    const flag = document.createElement('img');
+    flag.src = `${ICONS}/flag-${g.code}.svg`;
+    flag.alt = COUNTRY_NAMES[g.code] || g.code;
+    flag.width = 32;
+    const info = document.createElement('div');
+    info.className = 'nav-locale-info';
+    const name = document.createElement('span');
+    name.className = 'nav-locale-name';
+    name.textContent = COUNTRY_NAMES[g.code] || g.code;
+    const codes = document.createElement('div');
+    codes.className = 'nav-locale-codes';
+    g.items.forEach((it, i) => {
+      const a = document.createElement('a');
+      a.href = it.href;
+      a.textContent = it.locale;
+      // mark the current locale as active (first overall entry)
+      if (it === current) a.classList.add('is-current');
+      codes.append(a);
+      if (i < g.items.length - 1) {
+        const sep = document.createElement('span');
+        sep.className = 'nav-locale-sep';
+        sep.textContent = '|';
+        codes.append(sep);
+      }
+    });
+    info.append(name, codes);
+    row.append(flag, info);
+    panel.append(row);
+  });
 
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const open = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
-    list.classList.toggle('open', !open);
+    panel.classList.toggle('open', !open);
   });
-
-  // close when clicking outside
   document.addEventListener('click', (e) => {
-    if (!localeWrapper.contains(e.target)) {
+    if (!wrapper.contains(e.target)) {
       toggle.setAttribute('aria-expanded', 'false');
-      list.classList.remove('open');
+      panel.classList.remove('open');
     }
   });
 
-  localeWrapper.prepend(toggle);
+  wrapper.append(toggle, panel);
+  rawList.replaceWith(wrapper);
 }
 
 /**
@@ -198,11 +291,20 @@ export default async function decorate(block) {
     decorateLogo(navBrand);
   }
 
+  // sign-in modal (opened from the Sign In link)
+  const { modal: signInModal, open: openSignIn } = buildSignInModal();
+
   // tools: sign-in link + locale selector, plus the JS-built search
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
     const signIn = navTools.querySelector('p');
-    if (signIn) signIn.classList.add('nav-sign-in');
+    if (signIn) {
+      signIn.classList.add('nav-sign-in');
+      const signInLink = signIn.querySelector('a');
+      if (signInLink) {
+        signInLink.addEventListener('click', (e) => { e.preventDefault(); openSignIn(); });
+      }
+    }
     decorateLocaleSelector(navTools);
   }
 
@@ -255,5 +357,5 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
-  block.append(navWrapper);
+  block.append(navWrapper, signInModal);
 }

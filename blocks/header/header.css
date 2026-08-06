@@ -6,6 +6,151 @@ header .nav-wrapper {
   position: relative;
 }
 
+/* ---- Sign In modal ---- */
+header .nav-signin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .nav-signin-modal[hidden] {
+  display: none;
+}
+
+header .nav-signin-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
+}
+
+header .nav-signin-dialog {
+  position: relative;
+  width: 450px;
+  max-width: 92vw;
+  box-sizing: border-box;
+  padding: 40px;
+  background: #202020;
+  color: #fff;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+header .nav-signin-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: #ebebeb;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+header .nav-signin-close:hover,
+header .nav-signin-close:focus-visible {
+  color: #ffea00;
+}
+
+header .nav-signin-title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+  color: #fff;
+}
+
+/* yellow underline under the Sign In title */
+header .nav-signin-title::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin-top: 12px;
+  background: #ffea00;
+}
+
+header .nav-signin-welcome {
+  margin: 24px 0 20px;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 24px;
+  color: #fff;
+}
+
+header .nav-signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+header .nav-signin-field {
+  display: block;
+}
+
+header .nav-signin-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+header .nav-signin-field input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  border: 1px solid #ebebeb;
+  border-radius: 0;
+  background: #202020;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+header .nav-signin-field input::placeholder {
+  color: #9b9b9b;
+}
+
+header .nav-signin-forgot {
+  color: #ebebeb;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+header .nav-signin-forgot:hover {
+  color: #ffea00;
+}
+
+header .nav-signin-submit {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 14px 40px;
+  border: 0;
+  border-radius: 0;
+  background: #ffea00;
+  color: #202020;
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+header .nav-signin-submit:hover {
+  background: #f5d900;
+}
+
 header nav {
   box-sizing: border-box;
   font-family: var(--body-font-family);
@@ -101,46 +246,78 @@ header nav .nav-locale-toggle::after {
   margin-left: 2px;
 }
 
-header nav .nav-locale-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* WKND-style locale panel: country rows with flag + name + pipe-separated codes */
+header nav .nav-locale-panel {
   display: none;
 }
 
-header nav .nav-locale-list.open {
+header nav .nav-locale-panel.open {
   display: block;
   position: absolute;
   right: 0;
   top: 100%;
-  min-width: 160px;
+  width: 340px;
+  max-width: 92vw;
   background-color: #202020;
-  padding: 8px 0;
-  z-index: 5;
+  z-index: 6;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
 }
 
-header nav .nav-locale-list li {
-  padding: 0;
+header nav .nav-locale-country {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
-header nav .nav-locale-list li a {
+header nav .nav-locale-country:last-child {
+  border-bottom: 0;
+}
+
+header nav .nav-locale-country img {
+  width: 32px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+header nav .nav-locale-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+header nav .nav-locale-name {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9b9b9b;
+}
+
+header nav .nav-locale-codes {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-locale-codes a {
   color: #ebebeb;
-  text-transform: none;
-  white-space: nowrap;
 }
 
-header nav .nav-locale-list li a:hover {
-  background-color: #000;
+header nav .nav-locale-codes a.is-current {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-header nav .nav-locale-list img {
-  width: 20px;
-  height: auto;
+header nav .nav-locale-codes a:hover {
+  color: #ffea00;
+}
+
+header nav .nav-locale-sep {
+  color: #666;
 }
 
 /* ---- main bar (white) ---- */
