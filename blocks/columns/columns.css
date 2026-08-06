@@ -1,33 +1,132 @@
+/*
+ * columns block
+ * Styled to match the WKND "Featured Article" teaser (cmp-teaser--featured):
+ * an image beside a text column (pretitle, heading, description, yellow CTA).
+ * Values extracted from the WKND source computed styles.
+ * Mobile-first: stacked (text first, image below); 2-column from 768px up
+ * (matches the source's own tablet breakpoint), image left / text right.
+ */
+
+/* ---- base / mobile: stacked column, text on top, image below ---- */
 .columns > div {
   display: flex;
   flex-direction: column;
 }
 
 .columns img {
+  display: block;
   width: 100%;
 }
 
+/* text column above the image on mobile (source stacks text first) */
 .columns > div > div {
-  order: 1;
-}
-
-.columns > div > .columns-img-col {
   order: 0;
 }
 
-.columns > div > .columns-img-col img {
-  display: block;
+.columns > div > .columns-img-col {
+  order: 1;
+  padding: 0;
 }
 
-@media (width >= 900px) {
+/* text column padding (source content: 63px 36px 36px; trimmed top on mobile) */
+.columns > div > div:not(.columns-img-col) {
+  padding: 32px 24px 24px;
+}
+
+/* heading — Asar serif, matches source teaser title */
+.columns h2 {
+  margin: 18px 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.5; /* 54px on 36px */
+  color: var(--text-color);
+}
+
+/* description — default paragraph styling in the text column */
+.columns > div > div:not(.columns-img-col) p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 1.75; /* 24.5px on 14px */
+  color: var(--text-color);
+}
+
+/* CTA — standalone link paragraph becomes a flat yellow WKND button */
+.columns > div > div:not(.columns-img-col) p:has(> a) {
+  margin: 18px 0;
+}
+
+/* pretitle — bold lead-in paragraph ("Featured Article") */
+.columns > div > div:not(.columns-img-col) p:first-child:has(strong) {
+  margin: 0 0 13.5px;
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 700;
+  line-height: 45px;
+}
+
+.columns > div > div:not(.columns-img-col) p:first-child:has(strong) strong {
+  font-weight: 700;
+}
+
+.columns > div > div:not(.columns-img-col) p:has(> a) > a {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.columns > div > div:not(.columns-img-col) p:has(> a) > a:hover,
+.columns > div > div:not(.columns-img-col) p:has(> a) > a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* ---- 768px and up: image left, text right (source tablet+ layout) ---- */
+@media (width >= 768px) {
   .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    flex-direction: row;
+    align-items: stretch; /* image stretches to the text column's height */
+    gap: 0;
   }
 
-  .columns > div > div {
+  /* source WKND teaser: image flex-grow 2, content flex-grow 1 on content-boxes.
+     With the content column's 72px horizontal padding this renders ~62/38,
+     matching the source (image 709 / text 427 at 1136px). */
+  .columns > div > .columns-img-col {
+    display: flex;
+    order: 0;
+    flex: 2;
+    min-width: 0;
+  }
+
+  .columns > div > div:not(.columns-img-col) {
+    order: 0;
     flex: 1;
-    order: unset;
+    min-width: 0; /* honor the flex ratio instead of content min-width */
+    padding: 63px 36px 36px;
+  }
+
+  .columns > div > .columns-img-col picture {
+    display: block;
+    width: 100%;
+  }
+
+  /* image fills the (text-driven) column height and cover-crops */
+  .columns > div > .columns-img-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }

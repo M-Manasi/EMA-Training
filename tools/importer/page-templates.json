@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://wknd.site/us/en.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en.html",
+      "coverageGaps": [],
+      "description": "WKND homepage: hero carousel, featured article teaser, recent-articles card grid, featured adventure teaser, adventures card grid, section CTAs.",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            "div.carousel.cmp-carousel--hero"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "div.image-list.list"
+          ]
+        },
+        {
+          "name": "hero",
+          "instances": [
+            "div.teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc2",
+          "name": "Hero Carousel",
+          "selector": "div.carousel.cmp-carousel--hero",
+          "style": null,
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc3",
+          "name": "Featured Article",
+          "selector": "div.teaser.cmp-teaser--featured",
+          "style": "grey",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc4-rc7",
+          "name": "Recent Articles",
+          "selector": "main.cmp-layout-container--fixed:nth-of-type(1)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "div.title.cmp-title--underline:nth-of-type(2)",
+            "div.button.cmp-button--primary:nth-of-type(1)",
+            "div.separator:nth-of-type(1)"
+          ]
+        },
+        {
+          "id": "rc8-rc9",
+          "name": "Next Adventures",
+          "selector": "div.teaser.cmp-teaser--imagebottom",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": [
+            "div.title.cmp-title--underline:nth-of-type(6)"
+          ]
+        },
+        {
+          "id": "rc10-rc13",
+          "name": "Where do you want to go",
+          "selector": "main.cmp-layout-container--fixed:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "div.title:nth-of-type(1)",
+            "div.button.cmp-button--primary:nth-of-type(2)",
+            "div.separator:nth-of-type(2)"
+          ]
+        }
+      ]
+    }
+  ]
+}
