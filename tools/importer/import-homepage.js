@@ -119,16 +119,21 @@ export default {
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 
-    // 5b. Re-localize: adjustImageUrls makes paths absolute against the source
-    // origin, which re-prefixes our localized "/assets/..." back to
-    // "https://<source>/assets/...". Strip the source origin so localized
-    // images stay root-relative (served from our own EDS origin as media_).
+    // 5b. Localized images are already absolute managed-media URLs on our own
+    // delivery origin (https://main--ema-training--m-manasi.aem.page/media_...)
+    // — that exact form is what the pipeline needs to build an optimized
+    // <picture> (friendly /assets or relative media_ paths render as
+    // about:error). adjustImageUrls only touches relative/source-origin URLs,
+    // so our absolute media URLs pass through untouched. As a safety net, if
+    // adjustImageUrls ever re-prefixes a localized path against the source
+    // origin, restore the bare absolute media URL.
+    const MEDIA_ORIGIN = 'https://main--ema-training--m-manasi.aem.page';
     main.querySelectorAll('img[src], source[srcset]').forEach((el) => {
       const attr = el.tagName === 'SOURCE' ? 'srcset' : 'src';
       const val = el.getAttribute(attr);
       if (val) {
-        const m = val.match(/^https?:\/\/[^/]+(\/assets\/.+)$/);
-        if (m) el.setAttribute(attr, m[1]);
+        const m = val.match(/(https?:\/\/[^/]*ema-training[^/]*)?\/(media_[0-9a-f]+\.\w+)/i);
+        if (m) el.setAttribute(attr, `${MEDIA_ORIGIN}/${m[2]}`);
       }
     });
 
