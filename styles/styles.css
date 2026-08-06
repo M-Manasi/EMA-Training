@@ -176,6 +176,18 @@ a:hover {
   text-decoration: underline;
 }
 
+/* WKND section-title accent — the section headings that introduce a block
+   ("Recent Articles", "Next Adventures") get a short yellow underline bar
+   (source: cmp-title--underline). These are h2 default-content headings; the
+   plain h3 "Where do you want to go?" intentionally has no bar (matches WKND). */
+main .default-content-wrapper > h2:first-child::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 /* buttons */
 p.button-wrapper {
   margin: 12px 0;
@@ -208,20 +220,27 @@ button.button:disabled {
   pointer-events: none;
 }
 
+/* WKND primary button — solid yellow, square, uppercase (matches the source's
+   cmp-button--primary). Overrides the pill defaults above. */
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--background-color);
+  border-color: var(--accent-color);
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 a.button.primary:hover,
 a.button.primary:focus-visible,
 button.button.primary:hover,
 button.button.primary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
 
 a.button.primary[aria-disabled="true"],

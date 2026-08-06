@@ -10,6 +10,7 @@ import heroParser from './parsers/hero.js';
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
 import localizeImagesTransformer from './transformers/wknd-localize-images.js';
+import buttonsTransformer from './transformers/wknd-buttons.js';
 import sectionsTransformer from './transformers/wknd-sections.js';
 
 // PARSER REGISTRY
@@ -40,10 +41,12 @@ const PAGE_TEMPLATE = {
   ],
 };
 
-// TRANSFORMER REGISTRY (cleanup + image localization first, then sections)
+// TRANSFORMER REGISTRY (cleanup + image localization + button markup first,
+// then sections)
 const transformers = [
   cleanupTransformer,
   localizeImagesTransformer,
+  buttonsTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
 
