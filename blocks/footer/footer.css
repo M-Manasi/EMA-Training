@@ -2,13 +2,13 @@
 footer {
   background-color: #202020;
   color: #ebebeb;
-  font-size: 14px;
+  font-size: 18px; /* WKND footer body text (Follow Us, legal) is 18px; nav links override to 14px */
 }
 
 footer .footer {
-  max-width: 1264px;
+  max-width: 1192px; /* WKND footer content container (1164px + 14px gutters) */
   margin: 0 auto;
-  padding: 16px 24px 24px;
+  padding: 16px 14px 24px;
 }
 
 footer .footer p {
@@ -28,7 +28,6 @@ footer .footer-top {
   gap: 24px 48px;
   align-items: start;
   padding: 24px 0;
-  border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
 
 footer .footer-brand img {
@@ -44,6 +43,7 @@ footer .footer-nav ul {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  font-size: 14px; /* WKND footer nav links are 14px (footer base is 18px) */
   text-transform: uppercase;
 }
 
@@ -52,21 +52,18 @@ footer .footer-nav ul > li:first-child {
   display: none;
 }
 
-footer .footer-nav a:hover {
-  color: #f60;
-}
+/* WKND footer nav links have no hover color change */
 
-/* social — spans full width below the logo+nav row on mobile */
+/* social — spans full width below the logo+nav row on mobile.
+   "Follow Us" is a bare text node here; WKND shows it uppercase at 18px, so
+   uppercase the section and restore normal casing on the icon links. */
 footer .footer-social {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
   gap: 16px;
-}
-
-footer .footer-social > p {
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
 }
 
 footer .footer-social ul {
@@ -75,6 +72,8 @@ footer .footer-social ul {
   padding: 0;
   display: flex;
   gap: 8px;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 footer .footer-social img {
@@ -123,7 +122,7 @@ footer .footer-legal a:any-link {
 /* ---- desktop ---- */
 @media (width >= 900px) {
   footer .footer {
-    padding: 16px 32px 24px;
+    padding: 16px 14px 24px; /* WKND footer gutters are 14px */
   }
 
   footer .footer-top {
@@ -132,10 +131,11 @@ footer .footer-legal a:any-link {
     align-items: center;
     justify-content: space-between;
     gap: 32px;
+    padding: 16px 0;
   }
 
   footer .footer-brand img {
-    width: 120px;
+    width: 128px;
   }
 
   /* nav horizontal on desktop */

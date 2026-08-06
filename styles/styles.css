@@ -62,8 +62,8 @@
 
   /* nav height — WKND 2-bar header (dark utility bar + white main bar).
      Reserved so the header block does not overlap page content or shift it
-     on load (CLS). Mobile/tablet renders ~120px; desktop ~134px (see 900px). */
-  --nav-height: 120px;
+     on load (CLS). Matches WKND: ~117px mobile/tablet; 194px desktop (see 900px). */
+  --nav-height: 117px;
 }
 
 @media (width >= 900px) {
@@ -76,8 +76,8 @@
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
 
-    /* desktop 2-bar nav is taller */
-    --nav-height: 134px;
+    /* desktop 2-bar nav is taller (WKND: 25px utility + ~169px main = 194px) */
+    --nav-height: 194px;
   }
 }
 
