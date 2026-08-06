@@ -91,8 +91,8 @@ export default function decorate(block) {
   grid.className = 'adventures-grid';
   cards.forEach((c) => grid.append(c));
 
-  // Build the tablist: "All" + categories in first-seen order.
-  const tabs = ['All', ...categoryOrder];
+  // Build the tablist: "All" + categories (alphabetical, matching WKND).
+  const tabs = ['All', ...categoryOrder.sort((a, b) => a.localeCompare(b))];
   const tablist = document.createElement('div');
   tablist.className = 'adventures-tabs';
   tablist.setAttribute('role', 'tablist');

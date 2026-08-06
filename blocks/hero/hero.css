@@ -109,10 +109,18 @@ main .section.hero-container > .hero-wrapper {
   }
 }
 
-/* --- Desktop: fixed-height image + overlapping white content box. --- */
+/* --- Desktop: fixed-height image + overlapping white content box. ---
+   WKND hero: the teaser is exactly the image height (640px) and the white
+   content box overlaps the bottom of the image (its bottom aligns with the
+   image bottom). Reproduce with a relatively-positioned block and an
+   absolutely-positioned box pinned to the image bottom, so the block height
+   stays = image height and following content (e.g. "Current Adventures")
+   clears it with WKND's ~27px gap. */
 @media (width >= 1200px) {
   .hero.block {
-    align-items: center;
+    position: relative;
+    display: block;
+    margin-bottom: 27px;
   }
 
   .hero .hero-image img {
@@ -120,11 +128,15 @@ main .section.hero-container > .hero-wrapper {
   }
 
   .hero .hero-content {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     box-sizing: border-box;
     width: 100%;
     max-width: 1192px;
-    margin: -180px auto 0;
-    padding: 0 28px;
+    margin: 0 auto;
+    padding: 28px;
     background-color: var(--background-color);
   }
 }
