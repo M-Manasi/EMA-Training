@@ -1,0 +1,50 @@
+/*
+ * article-header block — WKND magazine article header.
+ * Breadcrumb (small uppercase links) + Asar 40px H1 title + uppercase byline.
+ * Values from the WKND source computed styles.
+ */
+
+.article-header {
+  margin: 0 0 13.5px;
+}
+
+/* breadcrumb — small uppercase links, muted, yellow current */
+.article-header .article-header-breadcrumb {
+  margin: 0 0 8px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #696969;
+}
+
+.article-header .article-header-breadcrumb a:any-link {
+  color: #696969;
+  text-decoration: none;
+}
+
+.article-header .article-header-breadcrumb a:hover,
+.article-header .article-header-breadcrumb a:focus-visible {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* title — Asar 40px/60, weight 400 (source h1) */
+.article-header h1 {
+  margin: 0 0 13.5px;
+  font-family: var(--heading-font-family);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 60px;
+  color: var(--text-color);
+}
+
+/* byline — Source Sans Pro 600 uppercase (source "BY JACOB WESTER") */
+.article-header .article-header-byline {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s); /* 16px */
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}

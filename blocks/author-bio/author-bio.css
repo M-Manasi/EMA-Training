@@ -1,0 +1,75 @@
+/*
+ * author-bio block — WKND article author footer.
+ * Round avatar + name on the left, social icons on the right.
+ */
+
+.author-bio {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--light-color);
+}
+
+.author-bio .author-bio-avatar {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.author-bio .author-bio-avatar img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+}
+
+.author-bio .author-bio-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.author-bio .author-bio-info p,
+.author-bio .author-bio-info h2,
+.author-bio .author-bio-info h3 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s); /* 16px */
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+/* a second line (role) renders lighter/normal */
+.author-bio .author-bio-info p + p {
+  font-weight: 400;
+  color: #696969;
+}
+
+.author-bio .author-bio-social {
+  display: flex;
+  gap: 8px;
+}
+
+.author-bio .author-bio-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--light-color);
+  transition: background-color 0.2s;
+}
+
+.author-bio .author-bio-social-link:hover,
+.author-bio .author-bio-social-link:focus-visible {
+  background-color: var(--accent-color);
+}
+
+.author-bio .author-bio-social-link img {
+  width: 18px;
+  height: 18px;
+}
