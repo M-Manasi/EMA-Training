@@ -159,72 +159,54 @@ header nav .nav-main {
 /* hamburger */
 header nav .nav-hamburger {
   grid-area: hamburger;
-  height: 22px;
+  height: 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  z-index: 5;
 }
 
 header nav .nav-hamburger button {
-  height: 22px;
+  height: 24px;
+  width: 26px;
   margin: 0;
   border: 0;
   border-radius: 0;
-  padding: 0;
+  padding: 4px 0 0;
   background-color: transparent;
   color: inherit;
+  cursor: pointer;
 }
 
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
+/* WKND-style hamburger: three lines of decreasing width (top longest,
+   bottom shortest), matching the source icon-font glyph */
+header nav .nav-hamburger-icon {
   box-sizing: border-box;
   display: block;
   position: relative;
-  width: 20px;
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentcolor;
 }
 
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: '';
   position: absolute;
-  background: currentcolor;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
+  left: 0;
   height: 2px;
   border-radius: 2px;
   background: currentcolor;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
+header nav .nav-hamburger-icon::before {
+  top: 7px;
+  width: 20px;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
-  height: 2px;
-  border-radius: 2px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
-  transform: rotate(-45deg);
+header nav .nav-hamburger-icon::after {
+  top: 14px;
+  width: 13px;
 }
 
 /* brand / logo */
@@ -247,19 +229,57 @@ header nav .nav-sections {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 75%;
-  max-width: 280px;
+  width: 80%;
+  max-width: 300px;
   background-color: #202020;
   color: #ebebeb;
   padding: 64px 0 24px;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
-  z-index: 3;
+  z-index: 4;
   overflow-y: auto;
 }
 
 header nav[aria-expanded='true'] .nav-sections {
   transform: translateX(0);
+}
+
+/* close (×) button inside the drawer (built in JS) */
+header nav .nav-drawer-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ebebeb;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+header nav .nav-drawer-close:hover,
+header nav .nav-drawer-close:focus-visible {
+  color: #ffea00;
+}
+
+/* dimmed backdrop behind the open drawer; click to close */
+header nav .nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 3;
+}
+
+header nav[aria-expanded='true'] .nav-backdrop {
+  opacity: 1;
+  visibility: visible;
 }
 
 header nav .nav-sections ul {
@@ -283,7 +303,8 @@ header nav .nav-sections ul > li a {
   border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
 
-header nav .nav-sections ul > li a:hover {
+header nav .nav-sections ul > li a:hover,
+header nav .nav-sections ul > li a:active {
   color: #202020;
   background-color: #ffea00;
 }
@@ -352,6 +373,12 @@ header nav .nav-search input {
   header nav .nav-hamburger {
     display: none;
     visibility: hidden;
+  }
+
+  /* drawer close button + backdrop are mobile-only */
+  header nav .nav-drawer-close,
+  header nav .nav-backdrop {
+    display: none;
   }
 
   /* reset the mobile drawer to an inline row on desktop */
