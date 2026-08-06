@@ -177,7 +177,7 @@ header nav .nav-tools {
   position: relative;
   max-width: 1264px;
   margin: 0 auto;
-  padding: 8px 32px;
+  padding: 3px 32px; /* WKND utility bar is ~25px tall (18px text + ~3px each side) */
   font-size: 14px;
   text-transform: uppercase;
 }
@@ -185,7 +185,7 @@ header nav .nav-tools {
 header nav .nav-tools .default-content-wrapper {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between; /* mobile: Sign In left, locale right (WKND) */
   gap: 24px;
 }
 
@@ -330,7 +330,7 @@ header nav .nav-main {
   max-width: 1264px;
   margin: 0 auto;
   padding: 12px 24px;
-  min-height: 84px;
+  min-height: 92px; /* WKND mobile header ~117px = 25px utility + 92px main */
 }
 
 /* hamburger */
@@ -529,9 +529,15 @@ header nav .nav-search input {
 
 /* ---- desktop ---- */
 @media (width >= 900px) {
+  /* utility bar: on desktop Sign In + locale group at the right (WKND) */
+  header nav .nav-tools .default-content-wrapper {
+    justify-content: flex-end;
+  }
+
   /* show the locale label again on desktop */
   header nav .nav-locale-toggle span {
     display: inline;
+    text-transform: uppercase; /* WKND shows "EN-US" */
   }
 
   header nav .nav-main {
@@ -540,7 +546,7 @@ header nav .nav-search input {
     justify-content: space-between;
     gap: 0 32px;
     padding: 0 32px;
-    min-height: 96px;
+    min-height: 169px; /* WKND desktop main bar: logo centered with generous vertical padding (total header ~194px incl. 25px utility bar) */
   }
 
   header nav .nav-brand img {
