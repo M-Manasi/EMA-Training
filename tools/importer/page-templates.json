@@ -99,6 +99,44 @@
           ]
         }
       ]
+    },
+    {
+      "name": "adventures-listing",
+      "urls": [
+        "https://wknd.site/us/en/adventures.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures.html",
+      "coverageGaps": [],
+      "description": "WKND adventures listing: page title (Adventures), hero teaser, 'Current Adventures' heading, and a category-tabbed adventures card grid.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "div.teaser.cmp-teaser--hero"
+          ]
+        },
+        {
+          "name": "adventures",
+          "instances": [
+            "ul.cmp-image-list"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "adv-main",
+          "name": "Adventures",
+          "selector": "div.teaser.cmp-teaser--hero",
+          "style": null,
+          "blocks": [
+            "hero",
+            "adventures"
+          ],
+          "defaultContent": [
+            "div.title.cmp-title--underline"
+          ]
+        }
+      ]
     }
   ]
 }
