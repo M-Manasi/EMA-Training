@@ -1,0 +1,139 @@
+/*
+ * adventures block — WKND adventures listing (cmp-tabs + cmp-image-list).
+ * A category tab filter above a responsive card grid. Card visuals mirror the
+ * homepage cards block (WKND image-list): 13/10 image crop, uppercase title,
+ * single-line ellipsis description; 1 -> 2 -> 4 columns.
+ * Tab values from the WKND source (active #202020 chip, 8px 16px, 14px upper).
+ */
+
+/* ---- tab filter ---- */
+.adventures .adventures-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 18px;
+  overflow-x: auto;
+}
+
+.adventures .adventures-tab {
+  flex: 0 0 max-content;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.adventures .adventures-tab:hover,
+.adventures .adventures-tab:focus-visible {
+  background-color: var(--light-color);
+}
+
+.adventures .adventures-tab[aria-selected='true'] {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  cursor: initial;
+}
+
+/* ---- card grid ---- */
+.adventures .adventures-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px; /* row 32px / column 14px, matches WKND */
+}
+
+.adventures .adventures-card {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.adventures .adventures-card[hidden] {
+  display: none;
+}
+
+/* Image — 13/10 crop, cover, with a whole-card click link overlay. */
+.adventures .adventures-card-image {
+  position: relative;
+  line-height: 0;
+}
+
+.adventures .adventures-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 10; /* 260 / 200 from source */
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 0;
+}
+
+.adventures .adventures-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Body — title + description under the image. */
+.adventures .adventures-card-body {
+  margin: 0;
+}
+
+/* Title — Source Sans Pro 600, UPPERCASE, #202020, 18/27 (overrides global h3). */
+.adventures .adventures-card-body h3 {
+  margin: 2px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.adventures .adventures-card-body h3 a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.adventures .adventures-card-body h3 a:hover,
+.adventures .adventures-card-body h3 a:focus-visible {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Description — Source Sans Pro 400, UPPERCASE, dimgray, 14/21, one-line ellipsis. */
+.adventures .adventures-card-body p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: #696969;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablet: 2 columns */
+@media (width >= 600px) {
+  .adventures .adventures-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: 4 columns */
+@media (width >= 900px) {
+  .adventures .adventures-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

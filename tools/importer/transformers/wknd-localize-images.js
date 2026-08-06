@@ -51,6 +51,18 @@ const MEDIA_MAP = {
   'article-01-picture-01.png': 'media_1dbed54a221e2f060b17c1adf8af2fb2647720456.png',
   'adobestock-164735399.jpeg': 'media_1da6af63de266afa2bb6813dad3ba3d618dc80666.jpg',
   'skitouring5sjoeberg.jpeg': 'media_139ca701d4581ba5ee72977826d38cb44b331c9db.jpg',
+  // adventures-listing images
+  'adobestock-175749320.jpeg': 'media_1a86905dc13f1caa1d0bdcdf304047b38297307c5.jpg',
+  'adobestock-200192344.jpeg': 'media_1f597bf9e3f66559daf12d29cf99b6444379a8cbe.jpg',
+  'sport-climbing.jpeg': 'media_170b2a3616e34f1f6945a3a6840d5896e37978d16.jpg',
+  'adobestock-201222633.jpeg': 'media_19a5af1a42e99ed270bfc14e36e044ac83731bd28.jpg',
+  'adobestock-185324648.jpeg': 'media_13f721df562523f0924be582404e750aaffab42e1.jpg',
+  'adobestock-59459597.jpeg': 'media_1bac413f3fb7872aec76c9a452e2f43fd6cfa6ff1.jpg',
+  'adobestock-294203896.jpeg': 'media_10486ec00bea127883f7d0a1a2284a8b2960441ed.jpg',
+  'adobestock-280313729.jpeg': 'media_10edd47eb17ddadb9fb11719a37543705e189705d.jpg',
+  'adobe-waadobe-wa-mg-2466.jpeg': 'media_12abbe43148d06aadca747b69d2ceda6f8cd32888.jpg',
+  'adobestock-238230356.jpeg': 'media_1429fa23d65c95bb9a5e30c2784695e1f51911688.jpg',
+  'adobestock-278302117.jpeg': 'media_168d4df680b92c68b36d08772450bd3d2ec2d19ce.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */

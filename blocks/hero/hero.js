@@ -56,11 +56,15 @@ export default async function decorate(block) {
     if (img) {
       // Rebuild as an optimized, responsive picture. This is the block's LCP
       // image, so load it eagerly at high priority.
+      // NB: the large source must carry the (min-width) media query and the
+      // small width must be the LAST (default) breakpoint — otherwise the first,
+      // unconstrained <source> wins on mobile and downloads the 2000px image
+      // (hurting mobile LCP).
       const optimized = createOptimizedPicture(
         img.src,
         img.getAttribute('alt') || '',
         true,
-        [{ width: '2000' }, { media: '(max-width: 600px)', width: '750' }],
+        [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }],
       );
       const optimizedImg = optimized.querySelector('img');
       optimizedImg.setAttribute('loading', 'eager');
