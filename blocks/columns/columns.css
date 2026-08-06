@@ -16,6 +16,13 @@
 .columns img {
   display: block;
   width: 100%;
+  height: auto;
+}
+
+/* reserve space for the featured image to avoid layout shift (CLS) */
+.columns > div > .columns-img-col img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
 }
 
 /* text column above the image on mobile (source stacks text first) */
