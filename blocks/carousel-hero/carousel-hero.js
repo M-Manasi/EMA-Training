@@ -90,6 +90,18 @@ function createSlide(row, slideIndex, carouselId) {
     }
   }
 
+  // The first slide's heading is the page's primary heading — promote it to
+  // an <h1> so the page has exactly one h1 (accessibility / heading order).
+  if (slideIndex === 0) {
+    const heading = slide.querySelector('h2, h3, h4, h5, h6');
+    if (heading) {
+      const h1 = document.createElement('h1');
+      h1.id = heading.id;
+      h1.innerHTML = heading.innerHTML;
+      heading.replaceWith(h1);
+    }
+  }
+
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
     slide.setAttribute('aria-labelledby', labeledBy.getAttribute('id'));

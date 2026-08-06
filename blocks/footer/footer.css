@@ -111,8 +111,12 @@ footer .footer-legal p + p {
   margin-top: 16px;
 }
 
+/* Underline the inline attribution links so they are distinguished from the
+   surrounding text by more than color (WCAG 1.4.1 / axe link-in-text-block).
+   Needs :any-link to out-specify the general `footer .footer a:any-link`
+   text-decoration:none rule above. */
 /* stylelint-disable-next-line no-descending-specificity */
-footer .footer-legal a {
+footer .footer-legal a:any-link {
   text-decoration: underline;
 }
 

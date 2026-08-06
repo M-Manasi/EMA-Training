@@ -83,6 +83,7 @@ main .section.carousel-hero-container > div {
   min-height: 310px;
 }
 
+.carousel-hero .carousel-hero-slide-content h1,
 .carousel-hero .carousel-hero-slide-content h2 {
   margin: 18px 0 0;
   padding: 0;
