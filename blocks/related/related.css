@@ -47,7 +47,7 @@
   margin-top: 6px;
   font-size: var(--body-font-size-xs); /* 14px */
   font-weight: 400;
-  color: #9b9b9b;
+  color: #696969; /* AA-contrast on white (>=4.5:1); #9b9b9b failed */
 }
 
 .related .related-item-link:hover .related-item-title,
