@@ -10,6 +10,29 @@
  * governing permissions and limitations under the License.
  */
 
+/* Metric-matched fallback fonts. These live in the render-blocking styles.css
+   (not the deferred fonts.css) so the fallback occupies the SAME space as the
+   real web font from the very first paint — the later swap to the real font in
+   fonts.css then causes ~no reflow (CLS). Overrides computed from the woff2
+   metrics vs the local fallback (Arial for body, Georgia for headings). */
+@font-face {
+  font-family: source-sans-pro-fallback;
+  size-adjust: 93.72%;
+  ascent-override: 104.99%;
+  descent-override: 29.13%;
+  line-gap-override: 0%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: asar-fallback;
+  size-adjust: 100.53%;
+  ascent-override: 118.97%;
+  descent-override: 55.41%;
+  line-gap-override: 0%;
+  src: local('Georgia');
+}
+
 :root {
   /* colors — WKND palette */
   --background-color: white;
