@@ -279,6 +279,32 @@ export default async function decorate(block) {
     if (section) section.classList.add(`nav-${c}`);
   });
 
+  // mark the nav link for the current section as active (WKND highlights it
+  // yellow, e.g. FAQS on /faqs). The active link is the one whose href path is
+  // the longest prefix of the current page path — this ignores any host prefix
+  // (e.g. the local dev "/content" mount) and never matches the bare locale
+  // root (so "Home"/logo isn't highlighted on section pages).
+  const sectionsEl = nav.querySelector('.nav-sections');
+  if (sectionsEl) {
+    const here = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+    let best = null;
+    let bestLen = 0;
+    sectionsEl.querySelectorAll('a[href]').forEach((a) => {
+      const href = a.getAttribute('href').replace(/\.html$/, '').replace(/\/$/, '');
+      const seg = href.split('/').filter(Boolean);
+      // require at least a section segment beyond the locale (…/xx/yy/<section>)
+      if (seg.length < 3) return;
+      if ((here === href || here.endsWith(href)) && href.length > bestLen) {
+        best = a;
+        bestLen = href.length;
+      }
+    });
+    if (best) {
+      best.setAttribute('aria-current', 'page');
+      best.closest('li')?.classList.add('nav-item-active');
+    }
+  }
+
   // brand: strip button styling from the logo link, then inject the logo image
   const navBrand = nav.querySelector('.nav-brand');
   if (navBrand) {
