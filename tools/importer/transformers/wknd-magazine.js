@@ -70,8 +70,10 @@ export default function transform(hookName, element, payload) {
   // ================= rebuild =================
   const frag = document.createElement('div');
 
-  // H1
+  // H1 — its own white section (WKND keeps the "Magazine" title on white; only
+  // the featured teaser box below it is grey).
   frag.append(el(document, 'h1', null, (magTitle && magTitle.textContent.trim()) || 'Magazine'));
+  frag.append(el(document, 'hr'));
 
   // featured teaser marker (columns, grey)
   const featDiv = el(document, 'div', 'mag-featured-src');
