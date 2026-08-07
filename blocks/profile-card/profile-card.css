@@ -1,0 +1,107 @@
+/*
+ * profile-card block — WKND contributor / guide profiles.
+ * A responsive grid of centered cards: round avatar, name (Asar), role
+ * (uppercase), and social icon boxes. 1 col mobile -> 2 tablet -> 4 desktop,
+ * matching WKND's contributor grid.
+ */
+
+.profile-card .profile-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px 32px;
+  text-align: center;
+}
+
+.profile-card .profile-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* round avatar */
+.profile-card .profile-card-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.profile-card .profile-card-avatar img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* name — Asar serif (from the source contributor titles) */
+.profile-card .profile-card-info h1,
+.profile-card .profile-card-info h2,
+.profile-card .profile-card-info h3 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 24px; /* WKND contributor name — Asar 24px/400 */
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+/* role — uppercase, small, muted */
+.profile-card .profile-card-info h4,
+.profile-card .profile-card-info h5,
+.profile-card .profile-card-info h6,
+.profile-card .profile-card-info p {
+  margin: 8px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* social icon boxes (dark svg in light-grey square, hover -> yellow) */
+.profile-card .profile-card-social {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.profile-card .profile-card-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--dark-color);
+  transition: background-color 0.2s;
+}
+
+.profile-card .profile-card-social-link img {
+  width: 18px;
+  height: 18px;
+  filter: invert(1); /* dark icon -> white on the dark box */
+}
+
+.profile-card .profile-card-social-link:hover,
+.profile-card .profile-card-social-link:focus-visible {
+  background-color: var(--accent-color);
+}
+
+.profile-card .profile-card-social-link:hover img,
+.profile-card .profile-card-social-link:focus-visible img {
+  filter: none; /* dark icon on the yellow hover box */
+}
+
+/* tablet: 2 columns */
+@media (width >= 600px) {
+  .profile-card .profile-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* desktop: 4 columns (contributors) */
+@media (width >= 900px) {
+  .profile-card .profile-card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

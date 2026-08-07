@@ -188,6 +188,13 @@ main .default-content-wrapper > h2:first-child::after {
   border-bottom: 2px solid var(--accent-color);
 }
 
+/* The About Us section headings ("Our Contributors", "WKND Guides") are plain
+   in WKND — suppress the auto underline accent there. */
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.profile-card-container .default-content-wrapper > h2:first-child::after {
+  content: none;
+}
+
 /* buttons */
 p.button-wrapper {
   margin: 12px 0;
@@ -422,6 +429,7 @@ main .section.article .default-content-wrapper h2 {
   font-size: 36px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .section.article .default-content-wrapper h2::after {
   content: "";
   display: block;

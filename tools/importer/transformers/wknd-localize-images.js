@@ -76,6 +76,13 @@ const MEDIA_MAP = {
   'amazon-river-02.jpeg': 'media_1b208ac8dbd966a8beaa8c5047e264b4b94973dd6.jpg',
   // faq image
   'adobestock-277768563.jpeg': 'media_1133e47f59378ddc186f3a3f410745aa74c3102bd.jpg',
+  // about-us contributor avatars
+  'stacey-roswells.jpeg': 'media_1c58434c333c2413f6d9dbca269e46e3c5c29b479.jpg',
+  'alex-iby-343837.jpeg': 'media_1f40e3118907b15ffb10dd48d2a0437c7becc775a.jpg',
+  'ian-provo.jpeg': 'media_182c0eb8bb070bf369598d7d8732c8c48b84997f2.jpg',
+  'ayo-ogunseinde-237739.jpeg': 'media_111cf9ae65e7681a6868468f5fa34ec1facb83cfe.jpg',
+  'justin-barr.jpeg': 'media_17d56677293ed4c3fcfd3ec3bfe4e4dcdb728e16d.jpg',
+  'kumar-selvaraj.jpeg': 'media_13d4b8cff87c21c727e187b64b982770f98384229.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */
