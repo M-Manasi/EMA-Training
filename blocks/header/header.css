@@ -6,14 +6,15 @@ header .nav-wrapper {
   position: relative;
 }
 
-/* ---- Sign In modal ---- */
+/* ---- Sign In modal ----
+   WKND anchors this as a dark dropdown panel at the top-right (just under the
+   header), with no page dimming — it dismisses on outside click. The overlay
+   is kept (transparent) only as a full-screen click-catcher for dismissal. */
 header .nav-signin-modal {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
 }
 
 header .nav-signin-modal[hidden] {
@@ -23,19 +24,34 @@ header .nav-signin-modal[hidden] {
 header .nav-signin-overlay {
   position: absolute;
   inset: 0;
-  background: rgb(0 0 0 / 60%);
+  background: transparent;
 }
 
 header .nav-signin-dialog {
-  position: relative;
+  position: absolute;
+  top: var(--nav-height, 194px);
+  right: max(16px, calc((100vw - 1264px) / 2 + 16px));
   width: 450px;
   max-width: 92vw;
   box-sizing: border-box;
   padding: 40px;
   background: #202020;
   color: #fff;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y: auto;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 30%);
+}
+
+/* on mobile the header is shorter; anchor full-width-ish near the top */
+@media (width < 900px) {
+  header .nav-signin-dialog {
+    top: var(--nav-height, 117px);
+    right: 0;
+    left: 0;
+    width: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
 }
 
 header .nav-signin-close {
@@ -481,7 +497,8 @@ header nav .nav-sections ul > li a {
 }
 
 header nav .nav-sections ul > li a:hover,
-header nav .nav-sections ul > li a:active {
+header nav .nav-sections ul > li a:active,
+header nav .nav-sections ul > li a[aria-current="page"] {
   color: #202020;
   background-color: #ffea00;
 }
