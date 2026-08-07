@@ -70,6 +70,10 @@ const MEDIA_MAP = {
   'jacob-wester.jpeg': 'media_18848bc6b96d02b09a1b6f5c5164824b4e04a5589.jpg',
   // adventure-detail images
   'adobestock-266405335.jpeg': 'media_1f188ba81486020850ed6a49ddae1c6a82b55e2af.jpg',
+  // content-listing (magazine) images
+  'adobe-waadobe-wa-b6a7083.jpeg': 'media_15e659d39eca4e2451616c0b84e74d5a334fb06f1.jpg',
+  'alaskan-grizzly.jpeg': 'media_19678a68f931a689a9e12058f8e200a311027a9c8.jpg',
+  'amazon-river-02.jpeg': 'media_1b208ac8dbd966a8beaa8c5047e264b4b94973dd6.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */
