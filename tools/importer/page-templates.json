@@ -193,6 +193,35 @@
           ]
         }
       ]
+    },
+    {
+      "name": "content-listing",
+      "urls": [
+        "https://wknd.site/us/en/magazine.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine.html",
+      "coverageGaps": [],
+      "description": "WKND magazine index: title, featured article teaser (grey), article card grid, Members Only teasers.",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            "div.teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "members-cards",
+          "instances": [
+            "div.teaser.cmp-teaser--secure"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "div.image-list.list"
+          ]
+        }
+      ]
     }
   ]
 }
