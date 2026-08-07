@@ -222,6 +222,23 @@
           ]
         }
       ]
+    },
+    {
+      "name": "faq",
+      "urls": [
+        "https://wknd.site/us/en/faqs.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/faqs.html",
+      "coverageGaps": [],
+      "description": "WKND FAQ: title, hero image, intro, accordion (Q&A), Need more help sidebar.",
+      "blocks": [
+        {
+          "name": "accordion",
+          "instances": [
+            "div.faq-accordion-src"
+          ]
+        }
+      ]
     }
   ]
 }

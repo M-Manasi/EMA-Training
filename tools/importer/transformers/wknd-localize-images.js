@@ -74,6 +74,8 @@ const MEDIA_MAP = {
   'adobe-waadobe-wa-b6a7083.jpeg': 'media_15e659d39eca4e2451616c0b84e74d5a334fb06f1.jpg',
   'alaskan-grizzly.jpeg': 'media_19678a68f931a689a9e12058f8e200a311027a9c8.jpg',
   'amazon-river-02.jpeg': 'media_1b208ac8dbd966a8beaa8c5047e264b4b94973dd6.jpg',
+  // faq image
+  'adobestock-277768563.jpeg': 'media_1133e47f59378ddc186f3a3f410745aa74c3102bd.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */

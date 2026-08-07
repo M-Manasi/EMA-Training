@@ -1,0 +1,78 @@
+/*
+ * accordion block — WKND FAQ accordion.
+ * Stacked Q&A items with thin grey dividers; each question is an Asar 24px
+ * uppercase-ish label with a +/- toggle on the right. Answer reveals below.
+ * Built on native <details>/<summary>.
+ */
+
+.accordion .accordion-item {
+  border-bottom: 1px solid var(--light-color);
+}
+
+.accordion .accordion-item:first-child {
+  border-top: 1px solid var(--light-color);
+}
+
+/* the clickable question row */
+.accordion .accordion-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 4px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s); /* 16px */
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* remove the native disclosure triangle */
+.accordion .accordion-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion .accordion-item-label::marker {
+  content: "";
+}
+
+/* + / − toggle icon on the right (drawn with CSS) */
+.accordion .accordion-item-label::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  background:
+    linear-gradient(var(--text-color), var(--text-color)) center / 100% 2px no-repeat,
+    linear-gradient(var(--text-color), var(--text-color)) center / 2px 100% no-repeat;
+  transition: transform 0.2s ease;
+}
+
+/* expanded: rotate the vertical bar away -> becomes a minus */
+.accordion .accordion-item[open] .accordion-item-label::after {
+  background: linear-gradient(var(--text-color), var(--text-color)) center / 100% 2px no-repeat;
+}
+
+.accordion .accordion-item-body {
+  padding: 0 4px 24px;
+}
+
+.accordion .accordion-item-body p {
+  margin: 0 0 12px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.accordion .accordion-item-body p:last-child {
+  margin-bottom: 0;
+}
+
+.accordion .accordion-item-body a:any-link {
+  color: var(--text-color);
+  text-decoration: underline;
+}
