@@ -434,3 +434,59 @@ main .section.article .default-content-wrapper img {
   width: 100%;
   margin: 8px 0;
 }
+
+/* ---- adventure-detail layout ----
+   Mobile: everything stacks (breadcrumb, title, key-facts sidebar, tabs).
+   Desktop: two columns — key-facts sidebar (left) + tabs content (right),
+   with the breadcrumb + H1 title spanning full width above. The `.adventure`
+   class is applied via section metadata. Matches WKND (~291px sidebar). */
+main .section.adventure .key-facts-wrapper {
+  margin-top: 24px;
+}
+
+@media (width >= 900px) {
+  main .section.adventure {
+    display: grid;
+    grid-template-columns: minmax(0, 291px) minmax(0, 1fr);
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 32px;
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  main .section.adventure > div {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* breadcrumb + title span both columns */
+  main .section.adventure > .breadcrumb-wrapper,
+  main .section.adventure > .default-content-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  /* key-facts sidebar in the left column */
+  main .section.adventure > .key-facts-wrapper {
+    grid-column: 1;
+    margin-top: 0;
+  }
+
+  /* tabs content in the right column */
+  main .section.adventure > .tabs-wrapper {
+    grid-column: 2;
+  }
+}
+
+/* adventure-detail H1 title — Asar with the WKND yellow underline accent */
+main .section.adventure .default-content-wrapper h1 {
+  margin: 24px 0 13.5px;
+}
+
+main .section.adventure .default-content-wrapper h1::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 13px;
+  border-bottom: 2px solid var(--accent-color);
+}

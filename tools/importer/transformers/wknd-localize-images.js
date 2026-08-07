@@ -68,6 +68,8 @@ const MEDIA_MAP = {
   'majestic-rainbow.jpeg': 'media_105a7bf63325289ed49f1e9a74a1dfd1885008de0.jpg',
   'northern-lights.jpeg': 'media_1be586d69308beff574f2ca3c1bf401b7f4a9372d.jpg',
   'jacob-wester.jpeg': 'media_18848bc6b96d02b09a1b6f5c5164824b4e04a5589.jpg',
+  // adventure-detail images
+  'adobestock-266405335.jpeg': 'media_1f188ba81486020850ed6a49ddae1c6a82b55e2af.jpg',
 };
 
 /** Resolve a source URL to an absolute managed-media URL by trailing filename. */
