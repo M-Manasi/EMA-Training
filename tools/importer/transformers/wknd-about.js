@@ -106,10 +106,14 @@ export default function transform(hookName, element, payload) {
         img.setAttribute('alt', person.name);
         imgWrap.append(img);
       }
-      // text cell: name (h3) + role (h5)
+      // text cell: name (h3) + role (paragraph — a subtitle, not a heading, to
+      // avoid an h3->h5 heading-order jump flagged by a11y checks).
       const textWrap = el(document, 'div', 'profile-card-text');
       textWrap.append(el(document, 'h3', null, person.name));
-      if (person.role) textWrap.append(el(document, 'h5', null, person.role));
+      if (person.role) {
+        const roleP = el(document, 'p', 'profile-card-role', person.role);
+        textWrap.append(roleP);
+      }
       row.append(imgWrap, textWrap);
       cardsDiv.append(row);
     });
