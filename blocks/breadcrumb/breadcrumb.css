@@ -1,0 +1,50 @@
+/*
+ * breadcrumb block — WKND breadcrumb trail.
+ * Small uppercase links separated by a yellow chevron, current page muted.
+ * (WKND: "ADVENTURES ▸ BALI SURF CAMP".)
+ */
+
+.breadcrumb .breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.breadcrumb .breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-color);
+}
+
+/* yellow chevron separator before every item except the first */
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid var(--accent-color);
+  border-right: 2px solid var(--accent-color);
+  transform: rotate(45deg);
+}
+
+.breadcrumb .breadcrumb-item a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.breadcrumb .breadcrumb-item a:hover,
+.breadcrumb .breadcrumb-item a:focus-visible {
+  color: #696969;
+}
+
+.breadcrumb .breadcrumb-item-current {
+  color: #696969;
+}

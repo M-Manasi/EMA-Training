@@ -1,0 +1,37 @@
+/*
+ * key-facts block — WKND adventure-detail summary sidebar.
+ * Stacked label/value pairs, each with a light-grey left border.
+ * Values from the WKND source: label 12px uppercase #696969, value 14px 600
+ * uppercase #202020, border-left 5px #ebebeb, padding-left 18px.
+ */
+
+.key-facts .key-facts-list {
+  margin: 0;
+  padding: 0;
+}
+
+.key-facts .key-facts-item {
+  margin: 0 0 22.5px;
+  padding-left: 18px;
+  border-left: 5px solid var(--light-color);
+}
+
+.key-facts .key-facts-label {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: #696969;
+}
+
+.key-facts .key-facts-value {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-color);
+}

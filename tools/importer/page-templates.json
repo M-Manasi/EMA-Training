@@ -137,6 +137,62 @@
           ]
         }
       ]
+    },
+    {
+      "name": "adventure-detail",
+      "urls": [
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+      "coverageGaps": [],
+      "description": "WKND adventure detail: breadcrumb, full-bleed gallery image, title, key-facts sidebar, tabbed content (Overview/Itinerary/What to Bring).",
+      "blocks": [
+        {
+          "name": "breadcrumb",
+          "instances": [
+            "div.breadcrumb-src"
+          ]
+        },
+        {
+          "name": "key-facts",
+          "instances": [
+            "div.key-facts-src"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            "div.tabs-src"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "adv-gallery",
+          "name": "Breadcrumb + Gallery",
+          "selector": "div.breadcrumb-src",
+          "style": null,
+          "blocks": [
+            "breadcrumb"
+          ],
+          "defaultContent": [
+            "div.adv-gallery-src"
+          ]
+        },
+        {
+          "id": "adv-body",
+          "name": "Title + Key Facts + Tabs",
+          "selector": "h1",
+          "style": "adventure",
+          "blocks": [
+            "key-facts",
+            "tabs"
+          ],
+          "defaultContent": [
+            "h1"
+          ]
+        }
+      ]
     }
   ]
 }
