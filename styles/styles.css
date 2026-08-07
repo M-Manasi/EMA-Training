@@ -490,3 +490,81 @@ main .section.adventure .default-content-wrapper h1::after {
   margin-top: 13px;
   border-bottom: 2px solid var(--accent-color);
 }
+
+/* ---- FAQ layout ----
+   Mobile: everything stacks (title, hero, intro, accordion, "Need more help").
+   Desktop: two columns — main content (title/hero/intro/accordion) on the left,
+   the "Need more help?" sidebar on the right (~72/28, matching WKND). The `.faq`
+   class is applied via section metadata. Section children (in DOM order):
+     1. default-content-wrapper  (FAQs H1 + hero + intro)   -> left col
+     2. accordion-wrapper        (the Q&A accordion)         -> left col
+     3. default-content-wrapper  (Need more help? sidebar)   -> right col */
+main .section.faq > .default-content-wrapper:last-child {
+  margin-top: 32px;
+}
+
+@media (width >= 900px) {
+  main .section.faq {
+    display: grid;
+    grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 32px;
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  main .section.faq > div {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* title/hero/intro (first) + accordion occupy the left column */
+  main .section.faq > .default-content-wrapper:first-child,
+  main .section.faq > .accordion-wrapper {
+    grid-column: 1;
+  }
+
+  /* the last default-content-wrapper ("Need more help?") is the right sidebar */
+  main .section.faq > .default-content-wrapper:last-child {
+    grid-column: 2;
+    grid-row: 1 / 999;
+    margin-top: 0;
+  }
+}
+
+/* FAQ H1 title — Asar with the WKND yellow underline accent */
+main .section.faq .default-content-wrapper h1 {
+  margin: 0 0 13.5px;
+}
+
+main .section.faq .default-content-wrapper h1::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 13px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* FAQ hero image + intro spacing */
+main .section.faq .default-content-wrapper img {
+  width: 100%;
+  margin: 24px 0;
+}
+
+main .section.faq .default-content-wrapper p {
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 1.6;
+}
+
+/* "Need more help?" sidebar heading (Asar) */
+main .section.faq > .default-content-wrapper:last-child h2 {
+  margin: 0 0 16px;
+  font-size: var(--heading-font-size-l);
+}
+
+main .section.faq > .default-content-wrapper:last-child p {
+  margin: 0 0 6px;
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+}
