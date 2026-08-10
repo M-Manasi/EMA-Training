@@ -7,9 +7,9 @@ header .nav-wrapper {
 }
 
 /* ---- Sign In modal ----
-   WKND anchors this as a dark dropdown panel at the top-right (just under the
-   header), with no page dimming — it dismisses on outside click. The overlay
-   is kept (transparent) only as a full-screen click-catcher for dismissal. */
+   WKND centers this dark panel in the viewport (both axes), with no page
+   dimming and no close button — it dismisses on outside click or Escape.
+   The overlay is kept (transparent) only as a full-screen click-catcher. */
 header .nav-signin-modal {
   position: fixed;
   inset: 0;
@@ -28,47 +28,19 @@ header .nav-signin-overlay {
 }
 
 header .nav-signin-dialog {
-  position: absolute;
-  top: var(--nav-height, 194px);
-  right: max(16px, calc((100vw - 1264px) / 2 + 16px));
-  width: 450px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 386px;
   max-width: 92vw;
   box-sizing: border-box;
-  padding: 40px;
+  padding: 32px 28px;
   background: #202020;
   color: #fff;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 12px 32px rgb(0 0 0 / 30%);
-}
-
-/* on mobile the header is shorter; anchor full-width-ish near the top */
-@media (width < 900px) {
-  header .nav-signin-dialog {
-    top: var(--nav-height, 117px);
-    right: 0;
-    left: 0;
-    width: auto;
-    margin: 0 auto;
-    max-width: 100%;
-  }
-}
-
-header .nav-signin-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  border: 0;
-  background: transparent;
-  color: #ebebeb;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-header .nav-signin-close:hover,
-header .nav-signin-close:focus-visible {
-  color: #ffea00;
 }
 
 header .nav-signin-title {
@@ -80,11 +52,11 @@ header .nav-signin-title {
   color: #fff;
 }
 
-/* yellow underline under the Sign In title */
+/* yellow underline under the Sign In title (WKND: 84px) */
 header .nav-signin-title::after {
   content: '';
   display: block;
-  width: 64px;
+  width: 84px;
   height: 3px;
   margin-top: 12px;
   background: #ffea00;
@@ -120,7 +92,7 @@ header .nav-signin-sr {
 header .nav-signin-field input {
   box-sizing: border-box;
   width: 100%;
-  height: 56px;
+  height: 66px; /* WKND field height */
   padding: 0 16px;
   border: 1px solid #ebebeb;
   border-radius: 0;
@@ -138,7 +110,7 @@ header .nav-signin-field input::placeholder {
 
 header .nav-signin-forgot {
   color: #ebebeb;
-  font-size: 14px;
+  font-size: 18px; /* WKND forgot-password link */
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -150,14 +122,14 @@ header .nav-signin-forgot:hover {
 header .nav-signin-submit {
   align-self: flex-start;
   margin-top: 8px;
-  padding: 14px 40px;
+  padding: 11px 44px; /* WKND submit ~180x47 */
   border: 0;
   border-radius: 0;
   background: #ffea00;
   color: #202020;
   font-family: var(--body-font-family);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 18px; /* WKND submit label */
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;

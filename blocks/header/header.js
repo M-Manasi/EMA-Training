@@ -124,7 +124,6 @@ function buildSignInModal() {
   modal.innerHTML = `
     <div class="nav-signin-overlay"></div>
     <div class="nav-signin-dialog">
-      <button type="button" class="nav-signin-close" aria-label="Close sign in">&times;</button>
       <h2 class="nav-signin-title">Sign In</h2>
       <p class="nav-signin-welcome">Welcome Back</p>
       <form class="nav-signin-form">
@@ -151,7 +150,6 @@ function buildSignInModal() {
     modal.querySelector('input')?.focus();
   };
   modal.querySelector('.nav-signin-overlay').addEventListener('click', close);
-  modal.querySelector('.nav-signin-close').addEventListener('click', close);
   modal.querySelector('.nav-signin-form').addEventListener('submit', (e) => e.preventDefault());
   document.addEventListener('keydown', (e) => { if (e.code === 'Escape' && !modal.hidden) close(); });
 
