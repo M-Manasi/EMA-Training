@@ -48,7 +48,7 @@ header .nav-signin-title {
   font-family: var(--heading-font-family);
   font-weight: 400;
   font-size: 40px;
-  line-height: 1.1;
+  line-height: 1.5; /* WKND: 60px on 40px */
   color: #fff;
 }
 
@@ -63,17 +63,18 @@ header .nav-signin-title::after {
 }
 
 header .nav-signin-welcome {
-  margin: 24px 0 20px;
+  margin: 27px 0 14px; /* WKND: 27px above, 14px below */
   font-family: var(--heading-font-family);
   font-weight: 400;
   font-size: 24px;
+  line-height: 1.5;
   color: #fff;
 }
 
 header .nav-signin-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px; /* WKND spacing between fields / forgot link */
 }
 
 header .nav-signin-field {
@@ -105,10 +106,11 @@ header .nav-signin-field input {
 }
 
 header .nav-signin-field input::placeholder {
-  color: #9b9b9b;
+  color: #757575; /* WKND placeholder grey (rgb(117,117,117)) */
 }
 
 header .nav-signin-forgot {
+  margin-top: 4px; /* WKND: 14px below password (10px form gap + 4px) */
   color: #ebebeb;
   font-size: 18px; /* WKND forgot-password link */
   text-transform: uppercase;
@@ -121,7 +123,7 @@ header .nav-signin-forgot:hover {
 
 header .nav-signin-submit {
   align-self: flex-start;
-  margin-top: 8px;
+  margin-top: 4px; /* WKND: 14px below forgot link (10px form gap + 4px) */
   padding: 11px 44px; /* WKND submit ~180x47 */
   border: 0;
   border-radius: 0;
@@ -137,6 +139,14 @@ header .nav-signin-submit {
 
 header .nav-signin-submit:hover {
   background: #f5d900;
+}
+
+/* bottom separator below the submit button (WKND) */
+header .nav-signin-sep {
+  height: 2px;
+  margin: 24px 0 0;
+  border: 0;
+  background: #696969; /* WKND rgb(105,105,105) */
 }
 
 header nav {

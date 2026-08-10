@@ -138,6 +138,7 @@ function buildSignInModal() {
         <a class="nav-signin-forgot" href="#forgot-password">Forgot your password?</a>
         <button type="submit" class="nav-signin-submit">Sign In</button>
       </form>
+      <hr class="nav-signin-sep">
     </div>`;
 
   const close = () => {
