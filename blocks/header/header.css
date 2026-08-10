@@ -191,9 +191,19 @@ header nav .nav-tools .default-content-wrapper p {
   margin: 0;
 }
 
+/* Sign In wrapper: flex so the link centers identically to the locale toggle
+   (both are flex-centered boxes → their text baselines line up parallel) */
+header nav .nav-sign-in {
+  display: flex;
+  align-items: center;
+}
+
 header nav .nav-sign-in a {
+  display: inline-flex;
+  align-items: center;
   color: #ebebeb;
   font-size: 14px;
+  line-height: 1.5; /* match locale toggle so both text baselines center identically */
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -206,6 +216,8 @@ header nav .nav-sign-in a:focus-visible {
 /* locale selector */
 header nav .nav-locale {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 header nav .nav-locale-toggle {
