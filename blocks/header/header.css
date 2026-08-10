@@ -175,8 +175,9 @@ header nav .nav-tools {
   position: relative;
   max-width: 1200px; /* WKND content column (1136 inner + 64 padding) — matches body & footer */
   margin: 0 auto;
-  padding: 3px 32px; /* WKND utility bar is ~25px tall (18px text + ~3px each side) */
+  padding: 2px 32px; /* WKND utility bar is 25px tall (≈21px row + 2px each side) */
   font-size: 14px;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 
@@ -235,7 +236,7 @@ header nav .nav-locale-toggle {
 }
 
 header nav .nav-locale-toggle img {
-  width: 20px;
+  width: 18px; /* keep the toggle row ~21px so the bar matches WKND's 25px */
   height: auto;
   display: block;
 }
