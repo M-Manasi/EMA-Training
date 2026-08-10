@@ -148,7 +148,8 @@ header .nav-signin-submit:hover {
 /* bottom separator below the submit button (WKND) */
 header .nav-signin-sep {
   height: 2px;
-  margin: 24px 0 0;
+  margin: 16px 0; /* WKND: ~16px above and below the separator (panel bottom
+                     spacing ~48px = 16px margin + 32px panel padding) */
   border: 0;
   background: #696969; /* WKND rgb(105,105,105) */
 }
