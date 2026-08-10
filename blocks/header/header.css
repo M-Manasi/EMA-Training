@@ -42,8 +42,9 @@ header .nav-signin-dialog {
   padding: 32px 28px;
   background: #202020;
   color: #fff;
-  max-height: 90vh;
-  overflow-y: auto;
+
+  /* WKND lets the panel size to its content and overflow visibly — no
+     max-height/scroll (which was drawing an internal scrollbar) */
   box-shadow: 0 12px 32px rgb(0 0 0 / 30%);
 }
 
