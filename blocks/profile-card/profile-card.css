@@ -20,16 +20,16 @@
 
 /* round avatar */
 .profile-card .profile-card-avatar {
-  width: 160px;
-  height: 160px;
+  width: 164px;
+  height: 164px;
   border-radius: 50%;
   overflow: hidden;
   line-height: 0;
 }
 
 .profile-card .profile-card-avatar img {
-  width: 160px;
-  height: 160px;
+  width: 164px;
+  height: 164px;
   object-fit: cover;
 }
 
