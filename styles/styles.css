@@ -343,7 +343,7 @@ main > .section {
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: 1136px; /* WKND content column: 1136 + 64 padding = 1200 total box */
   margin: auto;
   padding: 0 24px;
 }
@@ -373,7 +373,7 @@ main .section.grey {
    bio) on the left, the "related" sidebar on the right (matching WKND's
    ~72/28 split). The `.article` class is applied via section metadata. */
 main .section.article > div {
-  max-width: 1200px;
+  max-width: 1136px;
 }
 
 main .section.article .related-wrapper {
@@ -384,7 +384,7 @@ main .section.article .related-wrapper {
   main .section.article {
     display: grid;
     grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
-    max-width: 1200px;
+    max-width: 1136px;
     margin-inline: auto;
     padding: 0 32px;
     column-gap: 48px;
@@ -462,7 +462,7 @@ main .section.adventure .key-facts-wrapper {
   main .section.adventure {
     display: grid;
     grid-template-columns: minmax(0, 291px) minmax(0, 1fr);
-    max-width: 1200px;
+    max-width: 1136px;
     margin-inline: auto;
     padding: 0 32px;
     column-gap: 48px;
@@ -521,7 +521,7 @@ main .section.faq > .default-content-wrapper:last-child {
   main .section.faq {
     display: grid;
     grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
-    max-width: 1200px;
+    max-width: 1136px;
     margin-inline: auto;
     padding: 0 32px;
     column-gap: 48px;
