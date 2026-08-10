@@ -13,7 +13,7 @@
   border-top: 1px solid var(--light-color);
 }
 
-/* the clickable question row */
+/* the clickable question row — WKND: Asar 24px/400, normal case */
 .accordion .accordion-item-label {
   display: flex;
   align-items: center;
@@ -22,11 +22,11 @@
   padding: 20px 4px;
   list-style: none;
   cursor: pointer;
-  font-family: var(--body-font-family);
-  font-size: var(--body-font-size-s); /* 16px */
-  font-weight: 600;
-  line-height: 1.3;
-  text-transform: uppercase;
+  font-family: var(--heading-font-family); /* Asar (WKND accordion question) */
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5; /* WKND: 36px on 24px */
+  text-transform: none;
   color: var(--text-color);
 }
 
@@ -61,10 +61,10 @@
 }
 
 .accordion .accordion-item-body p {
-  margin: 0 0 12px;
+  margin: 0 0 13.5px;
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m); /* 18px */
-  line-height: 1.6;
+  font-size: var(--body-font-size-xs); /* 14px (WKND accordion answer) */
+  line-height: 1.75; /* WKND: 24.5px on 14px */
   color: var(--text-color);
 }
 

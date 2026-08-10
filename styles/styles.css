@@ -550,6 +550,7 @@ main .section.faq > .default-content-wrapper:last-child {
 /* FAQ H1 title — Asar with the WKND yellow underline accent */
 main .section.faq .default-content-wrapper h1 {
   margin: 0 0 13.5px;
+  line-height: 1.5; /* WKND: 60px on 40px */
 }
 
 main .section.faq .default-content-wrapper h1::after {
@@ -568,17 +569,18 @@ main .section.faq .default-content-wrapper img {
 
 main .section.faq .default-content-wrapper p {
   font-size: var(--body-font-size-m); /* 18px */
-  line-height: 1.6;
+  line-height: 2.5; /* WKND intro: 45px on 18px */
 }
 
-/* "Need more help?" sidebar heading (Asar) */
+/* "Need more help?" sidebar heading (Asar) — WKND: 24px/36px */
 main .section.faq > .default-content-wrapper:last-child h2 {
-  margin: 0 0 16px;
-  font-size: var(--heading-font-size-l);
+  margin: 0 0 13.5px;
+  font-size: var(--heading-font-size-m); /* 24px */
+  line-height: 1.5;
 }
 
 main .section.faq > .default-content-wrapper:last-child p {
-  margin: 0 0 6px;
-  font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  margin: 0 0 13.5px;
+  font-size: var(--body-font-size-xs); /* 14px (WKND need-help para) */
+  line-height: 2.5; /* WKND: 35px on 14px */
 }
