@@ -566,10 +566,11 @@ main .section.faq .default-content-wrapper h1::after {
   border-bottom: 2px solid var(--accent-color);
 }
 
-/* FAQ hero image + intro spacing */
+/* FAQ hero image + intro spacing — WKND uses tight 7px vertical margins
+   (H1->image ~21px incl. the h1 margin, image->intro ~14px) */
 main .section.faq .default-content-wrapper img {
   width: 100%;
-  margin: 24px 0;
+  margin: 7px 0;
 }
 
 main .section.faq .default-content-wrapper p {
@@ -588,4 +589,14 @@ main .section.faq > .default-content-wrapper:last-child p {
   margin: 0; /* WKND flows the contact lines together (no inter-para gap) */
   font-size: var(--body-font-size-xs); /* 14px (WKND need-help para) */
   line-height: 2.5; /* WKND: 35px on 14px */
+}
+
+/* need-help contact links — WKND renders these blue, no underline */
+main .section.faq > .default-content-wrapper:last-child a:any-link {
+  color: #0045ff;
+  text-decoration: none;
+}
+
+main .section.faq > .default-content-wrapper:last-child a:hover {
+  text-decoration: underline;
 }

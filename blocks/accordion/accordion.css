@@ -63,8 +63,10 @@
   background: linear-gradient(var(--text-color), var(--text-color)) center / 100% 2px no-repeat;
 }
 
+/* answer panel — WKND indents the revealed text 7px and sits it 7px below the
+   question (region padding 7px 0 0 7px), not the wide 24px gap we had */
 .accordion .accordion-item-body {
-  padding: 0 4px 24px;
+  padding: 7px 0 7px 7px;
 }
 
 .accordion .accordion-item-body p {

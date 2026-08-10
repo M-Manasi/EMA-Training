@@ -504,7 +504,14 @@ header nav .nav-search {
   position: relative;
   display: flex;
   align-items: center;
+  border: 1px solid transparent; /* reserved so focus border doesn't shift layout */
   background-color: rgb(235 235 235 / 54%);
+}
+
+/* WKND: on focus the field turns white with a 1px dark border */
+header nav .nav-search:focus-within {
+  border-color: #202020;
+  background-color: #fff;
 }
 
 header nav .nav-search-label {
