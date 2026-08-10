@@ -51,10 +51,16 @@ function defaultIndexPath() {
   return '/query-index.json';
 }
 
-/** Keeps only adventure detail rows (…/adventures/<name>, not the listing). */
-function isAdventureDetail(path) {
+/**
+ * Keeps only adventure detail rows for the CURRENT locale:
+ * `/{locale}/adventures/<name>` (not the listing, not other locales). The
+ * locale is the two leading path segments of the listing page (e.g. /us/en).
+ */
+function isAdventureDetail(path, localePrefix) {
   if (!path) return false;
-  return /\/adventures\/[^/]+\/?$/.test(path.replace(/\.html$/, ''));
+  const clean = path.replace(/\.html$/, '');
+  const re = new RegExp(`^${localePrefix}/adventures/[^/]+/?$`);
+  return re.test(clean);
 }
 
 /** Builds one card article from an index row. */
@@ -175,11 +181,13 @@ function render(block, cards, categoryOrder) {
 /** DYNAMIC path: fetch the index, filter, sort, render. Returns true on success. */
 async function renderFromIndex(block, { indexPath, limit }) {
   const path = indexPath || defaultIndexPath();
+  // current locale = two leading path segments of the listing page (/us/en)
+  const localePrefix = `/${window.location.pathname.split('/').filter(Boolean).slice(0, 2).join('/')}`;
   const resp = await fetch(path);
   if (!resp.ok) throw new Error(`adventures: index ${path} -> ${resp.status}`);
   const json = await resp.json();
   let rows = (Array.isArray(json) ? json : json.data || [])
-    .filter((r) => isAdventureDetail(r.path));
+    .filter((r) => isAdventureDetail(r.path, localePrefix));
   if (!rows.length) throw new Error('adventures: no adventure rows in index');
   rows.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
   if (limit > 0) rows = rows.slice(0, limit);
