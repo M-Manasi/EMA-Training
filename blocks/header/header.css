@@ -191,7 +191,7 @@ header nav .nav-utility {
 header nav .nav-tools {
   box-sizing: border-box;
   position: relative;
-  max-width: 1264px;
+  max-width: 1200px; /* WKND content column (1136 inner + 64 padding) — matches body & footer */
   margin: 0 auto;
   padding: 3px 32px; /* WKND utility bar is ~25px tall (18px text + ~3px each side) */
   font-size: 14px;
@@ -343,7 +343,7 @@ header nav .nav-main {
   grid-template: 'hamburger brand search' auto / auto auto 1fr;
   align-items: center;
   gap: 0 16px;
-  max-width: 1264px;
+  max-width: 1200px; /* WKND content column (1136 inner + 64 padding) — matches body & footer */
   margin: 0 auto;
   padding: 12px 24px;
   min-height: 92px; /* WKND mobile header ~117px = 25px utility + 92px main */
@@ -553,7 +553,7 @@ header nav .nav-search input {
   header nav .nav-tools .default-content-wrapper {
     justify-content: flex-end;
     gap: 28px;
-    padding-right: 96px;
+    padding-right: 87px; /* WKND insets the locale ~87px from the content-column right edge */
   }
 
   /* show the locale label again on desktop */
