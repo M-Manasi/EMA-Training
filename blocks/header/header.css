@@ -546,9 +546,14 @@ header nav .nav-search input {
 
 /* ---- desktop ---- */
 @media (width >= 900px) {
-  /* utility bar: on desktop Sign In + locale group at the right (WKND) */
+  /* utility bar: on desktop Sign In + locale group at the right (WKND).
+     WKND does NOT push the cluster flush to the edge — the locale sits ~1 grid
+     column (~96px) short of the content-column right edge (the search box below
+     it is what reaches the edge). Match that inset and WKND's 28px gap. */
   header nav .nav-tools .default-content-wrapper {
     justify-content: flex-end;
+    gap: 28px;
+    padding-right: 96px;
   }
 
   /* show the locale label again on desktop */
