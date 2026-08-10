@@ -530,6 +530,8 @@ main .section.faq > .default-content-wrapper:last-child {
 
   main .section.faq > div {
     max-width: none;
+    margin: 0; /* reset the base `margin:auto`, which otherwise centers the
+                  narrow accordion in its column instead of filling it */
     padding: 0;
   }
 
@@ -580,7 +582,7 @@ main .section.faq > .default-content-wrapper:last-child h2 {
 }
 
 main .section.faq > .default-content-wrapper:last-child p {
-  margin: 0 0 13.5px;
+  margin: 0; /* WKND flows the contact lines together (no inter-para gap) */
   font-size: var(--body-font-size-xs); /* 14px (WKND need-help para) */
   line-height: 2.5; /* WKND: 35px on 14px */
 }

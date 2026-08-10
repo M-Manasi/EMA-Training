@@ -5,6 +5,11 @@
  * Built on native <details>/<summary>.
  */
 
+/* fill the container width (WKND accordion spans its full column) */
+.accordion {
+  width: 100%;
+}
+
 .accordion .accordion-item {
   border-bottom: 1px solid var(--light-color);
 }
