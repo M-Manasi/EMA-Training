@@ -46,12 +46,9 @@ function readConfig(block) {
   return cfg;
 }
 
-/** Default query-index path scoped to the current locale (…/xx/yy/). */
+/** Default query-index path: the site-root index (helix-query.yaml target). */
 function defaultIndexPath() {
-  const seg = window.location.pathname.split('/').filter(Boolean);
-  // /us/en/adventures -> /us/en/query-index.json
-  const locale = seg.slice(0, 2).join('/');
-  return `/${locale}/query-index.json`;
+  return '/query-index.json';
 }
 
 /** Keeps only adventure detail rows (…/adventures/<name>, not the listing). */
