@@ -5,93 +5,141 @@ import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
  *
  * A category tab filter (ALL / CLIMBING / …) above a responsive card grid.
  * Reproduces the WKND cmp-tabs + cmp-image-list listing as a single
- * self-contained block (nested blocks are not decorated in this project, so the
- * whole listing must live in one top-level block).
+ * self-contained block.
  *
- * Content model — one row per adventure:
- *   cell 1: image (mandatory)
- *   cell 2: text — heading (title, linked) + description paragraph
- *   cell 3: categories — comma/newline separated labels (e.g. "Surfing, Travel")
+ * Two content models, identical rendered output:
  *
- * Tabs are derived from the union of categories (in first-seen order) with a
- * leading "All". Filtering is client-side: a card shows when the active tab is
- * "All" or is one of the card's categories.
- * @param {Element} block
+ * 1. DYNAMIC (preferred): the block's first row configures a query-index path
+ *    (optional; defaults to a locale-scoped `/…/query-index.json`) and an
+ *    optional `limit`. The block fetches the index, keeps rows whose path is
+ *    an adventure detail page (`…/adventures/<name>`, excluding the listing
+ *    page itself), sorts by title, and renders one card per row from the
+ *    index columns (image, title, description, category). The index is the
+ *    single source of truth — no adventure content is authored in the doc.
+ *
+ * 2. STATIC (fallback, backward compatible): if the index can't be resolved/
+ *    fetched, each authored block row is one card — [ image | text | categories ].
+ *
+ * @param {Element} block The adventures block element
  */
-export default function decorate(block) {
-  const rows = [...block.children];
-  const cards = [];
-  const categoryOrder = [];
 
-  rows.forEach((row) => {
-    const cols = [...row.children];
-    const imgCol = cols[0];
-    const textCol = cols[1];
-    const catCol = cols[2];
-    if (!imgCol) return;
+/** Reads config from the block's first row: { indexPath, limit }. */
+function readConfig(block) {
+  const cfg = { indexPath: null, limit: 0 };
+  const firstRow = block.firstElementChild;
+  if (!firstRow) return cfg;
+  const cells = [...firstRow.children];
+  // A config row is a single cell holding a link/path to a JSON index, or a
+  // key:value pair. Only treat the first row as config when it looks like one.
+  const link = firstRow.querySelector('a[href]');
+  const text = firstRow.textContent.trim();
+  if (link && /\.json(\?|$)/i.test(link.getAttribute('href'))) {
+    cfg.indexPath = link.getAttribute('href');
+    cfg.isConfig = true;
+  } else if (cells.length === 1 && /\.json(\?|$)/i.test(text)) {
+    cfg.indexPath = text;
+    cfg.isConfig = true;
+  }
+  // optional limit token e.g. "limit: 3" anywhere in the config row
+  const limitMatch = text.match(/limit\s*[:=]\s*(\d+)/i);
+  if (limitMatch) cfg.limit = Number(limitMatch[1]);
+  return cfg;
+}
 
-    // categories for this card
-    const catText = catCol ? catCol.textContent : '';
-    const categories = catText
-      .split(/[,\n]/)
-      .map((c) => c.trim())
-      .filter(Boolean);
-    categories.forEach((c) => {
-      if (!categoryOrder.includes(c)) categoryOrder.push(c);
-    });
+/** Default query-index path: the site-root index (helix-query.yaml target). */
+function defaultIndexPath() {
+  return '/query-index.json';
+}
 
-    // build the card
-    const card = document.createElement('article');
-    card.className = 'adventures-card';
-    card.dataset.categories = categories.map((c) => toClassName(c)).join(' ');
+/** Keeps only adventure detail rows (…/adventures/<name>, not the listing). */
+function isAdventureDetail(path) {
+  if (!path) return false;
+  return /\/adventures\/[^/]+\/?$/.test(path.replace(/\.html$/, ''));
+}
 
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'adventures-card-image';
-    const pic = imgCol.querySelector('picture');
-    if (pic) {
-      imgWrap.append(pic);
-    } else {
-      const img = imgCol.querySelector('img');
-      if (img) imgWrap.append(img);
-    }
+/** Builds one card article from an index row. */
+function buildCardFromData(row) {
+  const card = document.createElement('article');
+  card.className = 'adventures-card';
+  const category = (row.category || '').trim();
+  card.dataset.categories = category ? toClassName(category) : '';
 
-    const body = document.createElement('div');
-    body.className = 'adventures-card-body';
-    if (textCol) {
-      while (textCol.firstElementChild) body.append(textCol.firstElementChild);
-    }
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'adventures-card-image';
+  if (row.image) {
+    const pic = createOptimizedPicture(row.image, row.title || '', false, [{ width: '750' }]);
+    imgWrap.append(pic);
+  }
 
-    // Make the whole card link to the adventure (matches WKND's linked cards).
-    const link = body.querySelector('a[href]');
-    if (link) {
-      const href = link.getAttribute('href');
-      const anchor = document.createElement('a');
-      anchor.className = 'adventures-card-link';
-      anchor.setAttribute('href', href);
-      anchor.setAttribute('aria-label', link.textContent.trim());
-      imgWrap.prepend(anchor);
-    }
+  const body = document.createElement('div');
+  body.className = 'adventures-card-body';
+  const h3 = document.createElement('h3');
+  const titleLink = document.createElement('a');
+  titleLink.href = row.path;
+  titleLink.textContent = row.title || '';
+  h3.append(titleLink);
+  body.append(h3);
+  if (row.description) {
+    const p = document.createElement('p');
+    p.textContent = row.description;
+    body.append(p);
+  }
 
-    card.append(imgWrap, body);
-    cards.push(card);
-  });
+  // whole-card link overlay (matches WKND's linked cards)
+  const overlay = document.createElement('a');
+  overlay.className = 'adventures-card-link';
+  overlay.href = row.path;
+  overlay.setAttribute('aria-label', row.title || 'Adventure');
+  imgWrap.prepend(overlay);
 
-  // Optimise images.
-  cards.forEach((card) => {
-    const img = card.querySelector('img');
-    if (img && !card.querySelector('picture')) {
-      const optimized = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      img.closest('.adventures-card-image').append(optimized);
-      img.remove();
-    }
-  });
+  card.append(imgWrap, body);
+  return { card, category };
+}
 
-  // Build the grid.
+/** Builds one card from an authored static row (fallback). */
+function buildCardFromRow(row) {
+  const cols = [...row.children];
+  const imgCol = cols[0];
+  const textCol = cols[1];
+  const catCol = cols[2];
+  if (!imgCol) return null;
+
+  const categories = (catCol ? catCol.textContent : '')
+    .split(/[,\n]/).map((c) => c.trim()).filter(Boolean);
+
+  const card = document.createElement('article');
+  card.className = 'adventures-card';
+  card.dataset.categories = categories.map((c) => toClassName(c)).join(' ');
+
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'adventures-card-image';
+  const pic = imgCol.querySelector('picture');
+  if (pic) imgWrap.append(pic);
+  else { const img = imgCol.querySelector('img'); if (img) imgWrap.append(img); }
+
+  const body = document.createElement('div');
+  body.className = 'adventures-card-body';
+  if (textCol) while (textCol.firstElementChild) body.append(textCol.firstElementChild);
+
+  const link = body.querySelector('a[href]');
+  if (link) {
+    const overlay = document.createElement('a');
+    overlay.className = 'adventures-card-link';
+    overlay.setAttribute('href', link.getAttribute('href'));
+    overlay.setAttribute('aria-label', link.textContent.trim());
+    imgWrap.prepend(overlay);
+  }
+
+  card.append(imgWrap, body);
+  return { card, categories };
+}
+
+/** Renders the tablist + grid, wires client-side category filtering. */
+function render(block, cards, categoryOrder) {
   const grid = document.createElement('div');
   grid.className = 'adventures-grid';
   cards.forEach((c) => grid.append(c));
 
-  // Build the tablist: "All" + categories (alphabetical, matching WKND).
   const tabs = ['All', ...categoryOrder.sort((a, b) => a.localeCompare(b))];
   const tablist = document.createElement('div');
   tablist.className = 'adventures-tabs';
@@ -122,4 +170,60 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(tablist, grid);
+}
+
+/** DYNAMIC path: fetch the index, filter, sort, render. Returns true on success. */
+async function renderFromIndex(block, { indexPath, limit }) {
+  const path = indexPath || defaultIndexPath();
+  const resp = await fetch(path);
+  if (!resp.ok) throw new Error(`adventures: index ${path} -> ${resp.status}`);
+  const json = await resp.json();
+  let rows = (Array.isArray(json) ? json : json.data || [])
+    .filter((r) => isAdventureDetail(r.path));
+  if (!rows.length) throw new Error('adventures: no adventure rows in index');
+  rows.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+  if (limit > 0) rows = rows.slice(0, limit);
+
+  const cards = [];
+  const categoryOrder = [];
+  rows.forEach((row) => {
+    const { card, category } = buildCardFromData(row);
+    if (category && !categoryOrder.includes(category)) categoryOrder.push(category);
+    cards.push(card);
+  });
+  render(block, cards, categoryOrder);
+  return true;
+}
+
+export default async function decorate(block) {
+  const cfg = readConfig(block);
+  const staticRows = [...block.children];
+
+  // Try dynamic (index) first when a config row is present or an index resolves.
+  try {
+    if (await renderFromIndex(block, cfg)) return;
+  } catch (e) {
+    // fall through to static rows
+  }
+
+  // STATIC fallback: render authored rows (skip a config-only first row).
+  const rows = cfg.isConfig ? staticRows.slice(1) : staticRows;
+  const cards = [];
+  const categoryOrder = [];
+  rows.forEach((row) => {
+    const built = buildCardFromRow(row);
+    if (!built) return;
+    built.categories.forEach((c) => { if (!categoryOrder.includes(c)) categoryOrder.push(c); });
+    cards.push(built.card);
+  });
+  // optimise raw <img> in static cards
+  cards.forEach((card) => {
+    const img = card.querySelector('img');
+    if (img && !card.querySelector('picture')) {
+      const optimized = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      img.closest('.adventures-card-image').append(optimized);
+      img.remove();
+    }
+  });
+  render(block, cards, categoryOrder);
 }
