@@ -97,6 +97,9 @@ body.appear {
 
 header {
   height: var(--nav-height);
+  position: sticky; /* WKND pins the header to the top on scroll */
+  top: 0;
+  z-index: 10;
 }
 
 header .header,
