@@ -95,11 +95,12 @@ body.appear {
   display: block;
 }
 
+/* the header element stays in flow as a fixed-height spacer, reserving
+   --nav-height so content doesn't jump (no CLS). The visible bar (.nav-wrapper)
+   is position:fixed (see header.css) so it stays pinned like WKND, even at the
+   very bottom of short pages where position:sticky would unstick. */
 header {
   height: var(--nav-height);
-  position: sticky; /* WKND pins the header to the top on scroll */
-  top: 0;
-  z-index: 10;
 }
 
 header .header,
