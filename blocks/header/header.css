@@ -531,7 +531,7 @@ header nav .nav-search-icon {
 
 header nav .nav-search input {
   box-sizing: border-box;
-  height: 32px; /* WKND search box is ~32px tall */
+  height: 42px; /* WKND search box is 42px tall */
   width: 100%;
   border: 0;
   border-radius: 0;
@@ -624,6 +624,6 @@ header nav .nav-search input {
   }
 
   header nav .nav-search input {
-    width: 122px; /* + ~12px icon + padding ≈ 166px total box, matching WKND */
+    width: 138px; /* + icon + padding = 166px total box, matching WKND */
   }
 }
