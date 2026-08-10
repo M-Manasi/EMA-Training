@@ -1,9 +1,13 @@
-/* WKND header and nav layout */
+/* WKND header and nav layout — the visible bar is fixed to the top so it stays
+   pinned on scroll (WKND behavior), including at the bottom of short pages. The
+   parent <header> reserves --nav-height in flow, so this doesn't shift content. */
 header .nav-wrapper {
   background-color: var(--background-color);
   width: 100%;
-  z-index: 2;
-  position: relative;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 /* ---- Sign In modal ----
