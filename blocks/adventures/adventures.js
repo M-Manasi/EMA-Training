@@ -23,14 +23,20 @@ import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
  * @param {Element} block The adventures block element
  */
 
-/** Reads config from the block's first row: { indexPath, limit }. */
+/**
+ * Reads config from the block's first row: { indexPath, limit, tabs }.
+ * All are author-set (no code change needed to tune):
+ *   - a link/path to the JSON index (required to go dynamic)
+ *   - `limit: N`  → cap the number of cards (e.g. homepage grid)
+ *   - `tabs: false` → hide the category tablist (e.g. homepage grid)
+ */
 function readConfig(block) {
-  const cfg = { indexPath: null, limit: 0 };
+  const cfg = {
+    indexPath: null, limit: 0, tabs: true, isConfig: false,
+  };
   const firstRow = block.firstElementChild;
   if (!firstRow) return cfg;
   const cells = [...firstRow.children];
-  // A config row is a single cell holding a link/path to a JSON index, or a
-  // key:value pair. Only treat the first row as config when it looks like one.
   const link = firstRow.querySelector('a[href]');
   const text = firstRow.textContent.trim();
   if (link && /\.json(\?|$)/i.test(link.getAttribute('href'))) {
@@ -40,9 +46,11 @@ function readConfig(block) {
     cfg.indexPath = text;
     cfg.isConfig = true;
   }
-  // optional limit token e.g. "limit: 3" anywhere in the config row
+  // optional tokens anywhere in the config row (author-controlled)
   const limitMatch = text.match(/limit\s*[:=]\s*(\d+)/i);
   if (limitMatch) cfg.limit = Number(limitMatch[1]);
+  const tabsMatch = text.match(/tabs\s*[:=]\s*(true|false|no|yes|off|on)/i);
+  if (tabsMatch) cfg.tabs = /^(true|yes|on)$/i.test(tabsMatch[1]);
   return cfg;
 }
 
@@ -140,46 +148,54 @@ function buildCardFromRow(row) {
   return { card, categories };
 }
 
-/** Renders the tablist + grid, wires client-side category filtering. */
-function render(block, cards, categoryOrder) {
+/**
+ * Renders the grid, and (when showTabs) a category tablist with client-side
+ * filtering. On the homepage the block is configured `tabs: false` for a plain
+ * limited grid (matching WKND); the /adventures listing keeps its tabs.
+ */
+function render(block, cards, categoryOrder, showTabs = true) {
   const grid = document.createElement('div');
   grid.className = 'adventures-grid';
   cards.forEach((c) => grid.append(c));
 
-  const tabs = ['All', ...categoryOrder.sort((a, b) => a.localeCompare(b))];
-  const tablist = document.createElement('div');
-  tablist.className = 'adventures-tabs';
-  tablist.setAttribute('role', 'tablist');
-
-  const applyFilter = (cat) => {
-    const key = cat === 'All' ? null : toClassName(cat);
-    grid.querySelectorAll('.adventures-card').forEach((card) => {
-      const show = !key || card.dataset.categories.split(' ').includes(key);
-      card.hidden = !show;
-    });
-  };
-
-  tabs.forEach((label, i) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'adventures-tab';
-    button.textContent = label;
-    button.setAttribute('role', 'tab');
-    button.setAttribute('aria-selected', i === 0);
-    button.addEventListener('click', () => {
-      tablist.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', 'false'));
-      button.setAttribute('aria-selected', 'true');
-      applyFilter(label);
-    });
-    tablist.append(button);
-  });
-
   block.textContent = '';
-  block.append(tablist, grid);
+
+  if (showTabs) {
+    const tabs = ['All', ...categoryOrder.sort((a, b) => a.localeCompare(b))];
+    const tablist = document.createElement('div');
+    tablist.className = 'adventures-tabs';
+    tablist.setAttribute('role', 'tablist');
+
+    const applyFilter = (cat) => {
+      const key = cat === 'All' ? null : toClassName(cat);
+      grid.querySelectorAll('.adventures-card').forEach((card) => {
+        const show = !key || card.dataset.categories.split(' ').includes(key);
+        card.hidden = !show;
+      });
+    };
+
+    tabs.forEach((label, i) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'adventures-tab';
+      button.textContent = label;
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-selected', i === 0);
+      button.addEventListener('click', () => {
+        tablist.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', 'false'));
+        button.setAttribute('aria-selected', 'true');
+        applyFilter(label);
+      });
+      tablist.append(button);
+    });
+    block.append(tablist);
+  }
+
+  block.append(grid);
 }
 
 /** DYNAMIC path: fetch the index, filter, sort, render. Returns true on success. */
-async function renderFromIndex(block, { indexPath, limit }) {
+async function renderFromIndex(block, { indexPath, limit, tabs }) {
   const path = indexPath || defaultIndexPath();
   // current locale = two leading path segments of the listing page (/us/en)
   const localePrefix = `/${window.location.pathname.split('/').filter(Boolean).slice(0, 2).join('/')}`;
@@ -199,7 +215,7 @@ async function renderFromIndex(block, { indexPath, limit }) {
     if (category && !categoryOrder.includes(category)) categoryOrder.push(category);
     cards.push(card);
   });
-  render(block, cards, categoryOrder);
+  render(block, cards, categoryOrder, tabs);
   return true;
 }
 
@@ -233,5 +249,5 @@ export default async function decorate(block) {
       img.remove();
     }
   });
-  render(block, cards, categoryOrder);
+  render(block, cards, categoryOrder, cfg.tabs);
 }
