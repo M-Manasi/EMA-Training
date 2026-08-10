@@ -59,20 +59,20 @@
   color: var(--text-color);
 }
 
-/* social icon boxes (dark svg in light-grey square, hover -> yellow) */
+/* social icons share ONE dark bar per contributor (matches WKND), hover -> yellow */
 .profile-card .profile-card-social {
   display: flex;
-  gap: 8px;
+  gap: 0;
   margin-top: 16px;
+  background-color: var(--dark-color);
 }
 
 .profile-card .profile-card-social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: var(--dark-color);
+  width: 40px;
+  height: 40px;
   transition: background-color 0.2s;
 }
 

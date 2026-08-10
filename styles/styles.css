@@ -188,11 +188,16 @@ main .default-content-wrapper > h2:first-child::after {
   border-bottom: 2px solid var(--accent-color);
 }
 
-/* The About Us section headings ("Our Contributors", "WKND Guides") are plain
-   in WKND — suppress the auto underline accent there. */
+/* About Us section headings ("Our Contributors", "WKND Guides") both carry the
+   WKND yellow underline. The global rule only hits a first-child h2, so add the
+   accent explicitly to every h2 in a profile-card section. */
 /* stylelint-disable-next-line no-descending-specificity */
-main .section.profile-card-container .default-content-wrapper > h2:first-child::after {
-  content: none;
+main .section.profile-card-container .default-content-wrapper h2::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
 }
 
 /* buttons */
@@ -407,8 +412,9 @@ main .section.article .related-wrapper {
 
 /* ---- article body typography (WKND magazine) ---- */
 main .section.article p {
+  margin: 0 0 13.5px;
   font-size: var(--body-font-size-m); /* 18px */
-  line-height: 1.6;
+  line-height: 2.5; /* WKND article body is airy: 45px on 18px */
 }
 
 main .section.article blockquote {
