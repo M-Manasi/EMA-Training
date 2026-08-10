@@ -527,12 +527,18 @@ header nav .nav-search-label {
   white-space: nowrap;
 }
 
+/* WKND overlays the magnifier absolutely inside the input's left padding, so
+   the icon + field read as ONE seamless box (not two boxes with a gap) */
 header nav .nav-search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
-  padding-left: 12px;
   color: #6b6b6b;
   pointer-events: none;
+  z-index: 1;
 }
 
 header nav .nav-search input {
@@ -541,13 +547,20 @@ header nav .nav-search input {
   width: 100%;
   border: 0;
   border-radius: 0;
-  padding: 0 12px;
+  padding: 1px 32px; /* left room for the overlaid icon (WKND) */
   background-color: transparent;
   font-family: var(--body-font-family);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #202020;
+  appearance: none; /* strip the browser's default rounded search-field chrome */
+}
+
+/* remove the WebKit search decorations that draw an extra inner box */
+header nav .nav-search input::-webkit-search-decoration,
+header nav .nav-search input::-webkit-search-cancel-button {
+  appearance: none;
 }
 
 /* ---- desktop ---- */
@@ -635,6 +648,6 @@ header nav .nav-search input {
   }
 
   header nav .nav-search input {
-    width: 138px; /* + icon + padding = 166px total box, matching WKND */
+    width: 164px; /* 164 + 2px border = 166px box, matching WKND (icon is overlaid) */
   }
 }
