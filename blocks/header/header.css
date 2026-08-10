@@ -557,6 +557,13 @@ header nav .nav-search input {
   appearance: none; /* strip the browser's default rounded search-field chrome */
 }
 
+/* WKND shows no input outline — the container's focus border (see
+   .nav-search:focus-within) is the visible focus indicator instead */
+header nav .nav-search input:focus,
+header nav .nav-search input:focus-visible {
+  outline: none;
+}
+
 /* remove the WebKit search decorations that draw an extra inner box */
 header nav .nav-search input::-webkit-search-decoration,
 header nav .nav-search input::-webkit-search-cancel-button {
