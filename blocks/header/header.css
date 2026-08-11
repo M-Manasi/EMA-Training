@@ -355,6 +355,7 @@ header nav .nav-main {
   margin: 0 auto;
   padding: 12px 24px;
   min-height: 92px; /* WKND mobile header ~117px = 25px utility + 92px main */
+  transition: min-height 0.2s ease;
 }
 
 /* hamburger */
@@ -604,6 +605,12 @@ header nav .nav-search input::-webkit-search-cancel-button {
     gap: 0 32px;
     padding: 0 32px;
     min-height: 169px; /* WKND desktop main bar: logo centered with generous vertical padding (total header ~194px incl. 25px utility bar) */
+  }
+
+  /* WKND shrinks the header on scroll: main bar 169px -> ~93px so the total
+     header goes 194px -> 114px. header.js toggles .is-scrolled. */
+  header .nav-wrapper.is-scrolled nav .nav-main {
+    min-height: 93px;
   }
 
   header nav .nav-brand img {
