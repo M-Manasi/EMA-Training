@@ -61,12 +61,12 @@
   width: 36px;
   height: 36px;
   background-color: var(--light-color);
-  transition: background-color 0.2s;
 }
 
-.author-bio .author-bio-social-link:hover,
+/* WKND has no hover color change; keep a keyboard-only focus indicator */
 .author-bio .author-bio-social-link:focus-visible {
-  background-color: var(--accent-color);
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
 }
 
 .author-bio .author-bio-social-link img {

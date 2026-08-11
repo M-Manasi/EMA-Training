@@ -59,7 +59,8 @@
   color: var(--text-color);
 }
 
-/* social icons share ONE dark bar per contributor (matches WKND), hover -> yellow */
+/* social icons share ONE dark bar per contributor (matches WKND). WKND has no
+   hover color change — the box/icon stay put, only the cursor becomes a pointer. */
 .profile-card .profile-card-social {
   display: flex;
   gap: 0;
@@ -73,7 +74,6 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  transition: background-color 0.2s;
 }
 
 .profile-card .profile-card-social-link img {
@@ -82,14 +82,10 @@
   filter: invert(1); /* dark icon -> white on the dark box */
 }
 
-.profile-card .profile-card-social-link:hover,
+/* keyboard-only focus indicator (no mouse-hover change, matching WKND) */
 .profile-card .profile-card-social-link:focus-visible {
-  background-color: var(--accent-color);
-}
-
-.profile-card .profile-card-social-link:hover img,
-.profile-card .profile-card-social-link:focus-visible img {
-  filter: none; /* dark icon on the yellow hover box */
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
 }
 
 /* tablet: 2 columns */
