@@ -108,7 +108,16 @@ footer .footer-social a {
   height: 48px;
 }
 
-/* WKND has no hover color change; keep a keyboard-only focus indicator */
+/* WKND has no hover color change on social icons — the box/icon stay put and
+   only the cursor changes. Pin the background transparent on hover/active so no
+   global link rule can reintroduce a fill. */
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-social a:hover,
+footer .footer-social a:active {
+  background: transparent;
+}
+
+/* keyboard-only focus indicator (no mouse-hover change, matching WKND) */
 footer .footer-social a:focus-visible {
   outline: 2px solid #202020;
   outline-offset: -2px;
