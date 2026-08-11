@@ -106,11 +106,12 @@ footer .footer-social a {
   justify-content: center;
   width: 48px;
   height: 48px;
-  transition: background-color 0.2s ease;
 }
 
-footer .footer-social a:hover {
-  background: #ffea00;
+/* WKND has no hover color change; keep a keyboard-only focus indicator */
+footer .footer-social a:focus-visible {
+  outline: 2px solid #202020;
+  outline-offset: -2px;
 }
 
 /* ---- legal ---- */
