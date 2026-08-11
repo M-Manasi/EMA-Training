@@ -83,20 +83,33 @@
 }
 
 /* ---- Members-only (locked) cards ----
- * WKND marks members-only teasers with a lock badge: a yellow (#ffea00) triangle
- * in the top-left corner of the card carrying a black padlock (cmp-teaser--secure).
- * A locked card has no title link (you can't open it until you sign in); cards.js
- * adds .cards-card-secure to those <li>. The badge sits over the card image. */
+ * WKND marks members-only teasers with a lock badge and a distinct layout:
+ * TEXT first (title + description + grey "Read More"), IMAGE last, and a yellow
+ * (#ffea00) corner triangle with a black padlock overlapping the title top-left
+ * (cmp-teaser--secure). A locked card has no title link (you can't open it until
+ * you sign in); cards.js adds .cards-card-secure and the "Read More" span. */
 .cards > ul > li.cards-card-secure {
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
+/* image moves below the text (WKND members-only order) */
 .cards > ul > li.cards-card-secure .cards-card-image {
-  position: relative;
+  order: 2;
+  margin-top: 24px;
 }
 
-/* yellow corner triangle */
-.cards > ul > li.cards-card-secure .cards-card-image::before {
+.cards > ul > li.cards-card-secure .cards-card-body {
+  order: 1;
+  position: relative;
+
+  /* room for the lock badge that overlaps the title's top-left */
+  padding-left: 64px;
+  min-height: 56px;
+}
+
+/* yellow corner triangle, anchored to the body's top-left */
+.cards > ul > li.cards-card-secure .cards-card-body::before {
   content: "";
   position: absolute;
   inset: 0 auto auto 0;
@@ -107,7 +120,7 @@
 }
 
 /* black padlock icon on the triangle */
-.cards > ul > li.cards-card-secure .cards-card-image::after {
+.cards > ul > li.cards-card-secure .cards-card-body::after {
   content: "";
   position: absolute;
   inset: 8px auto auto 8px;
@@ -116,6 +129,26 @@
   height: 18px;
   background-color: var(--text-color); /* #202020 */
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M144 144v48h160v-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192v-48C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64v192c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64h16z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* the locked-card description is not truncated (WKND shows it in full) */
+.cards > ul > li.cards-card-secure .cards-card-body p {
+  overflow: visible;
+  white-space: normal;
+}
+
+/* grey "Read More" button (WKND: #ebebeb box, #696969 text, 7px 14px, 14px upper) */
+.cards > ul > li.cards-card-secure .cards-card-readmore {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 7px 14px;
+  background-color: var(--light-color); /* #ebebeb */
+  color: #696969;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 /* Tablet: 2 columns (matches WKND at 768px) */
@@ -129,5 +162,11 @@
 @media (width >= 900px) {
   .cards > ul {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Members-only cards are wider: WKND lays the locked teasers out in 2 columns,
+     not 4. A grid that holds any secure card is an all-locked members-only block. */
+  .cards > ul:has(> li.cards-card-secure) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

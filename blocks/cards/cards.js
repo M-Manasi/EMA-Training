@@ -12,9 +12,19 @@ export default function decorate(block) {
     });
     // Members-only / locked cards carry no link (the content can't be opened
     // until you sign in). Flag them so CSS can render the WKND lock badge — a
-    // yellow top-left corner triangle with a padlock. Content-driven: no
+    // yellow top-left corner triangle with a padlock — and the members-only
+    // layout (text first, image last, grey "Read More"). Content-driven: no
     // authoring change needed, mirrors WKND's cmp-teaser--secure.
-    if (!li.querySelector('a[href]')) li.classList.add('cards-card-secure');
+    if (!li.querySelector('a[href]')) {
+      li.classList.add('cards-card-secure');
+      const body = li.querySelector('.cards-card-body');
+      if (body && !body.querySelector('.cards-card-readmore')) {
+        const readMore = document.createElement('span');
+        readMore.className = 'cards-card-readmore';
+        readMore.textContent = 'Read More';
+        body.append(readMore);
+      }
+    }
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
