@@ -28,6 +28,15 @@ indices:
       category:
         select: head > meta[name="category"]
         value: attribute(el, 'content')
+      role:
+        select: head > meta[name="role"]
+        value: attribute(el, 'content')
+      group:
+        select: head > meta[name="group"]
+        value: attribute(el, 'content')
+      order:
+        select: head > meta[name="order"]
+        value: attribute(el, 'content')
       lastModified:
         select: none
         value: parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')
