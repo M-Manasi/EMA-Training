@@ -99,13 +99,25 @@
   margin-top: 24px;
 }
 
+/* WKND members-only images are near-square (~1:1), not the 13/10 article crop */
+.cards > ul > li.cards-card-secure .cards-card-image img {
+  aspect-ratio: 1 / 1;
+}
+
 .cards > ul > li.cards-card-secure .cards-card-body {
   order: 1;
   position: relative;
+}
 
-  /* room for the lock badge that overlaps the title's top-left */
+/* Only the TITLE clears the badge (WKND indents the title alone; the
+   description and "Read More" stay at the card's left edge). The title sits
+   vertically centered against the badge height. */
+.cards > ul > li.cards-card-secure .cards-card-body h3 {
+  min-height: 48px;
+  margin: 0;
   padding-left: 64px;
-  min-height: 56px;
+  display: flex;
+  align-items: center;
 }
 
 /* yellow corner triangle, anchored to the body's top-left */
@@ -114,8 +126,8 @@
   position: absolute;
   inset: 0 auto auto 0;
   z-index: 1;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   background: linear-gradient(to top left, transparent 0, transparent 50%, var(--accent-color) 50%, var(--accent-color) 100%);
 }
 
@@ -123,10 +135,10 @@
 .cards > ul > li.cards-card-secure .cards-card-body::after {
   content: "";
   position: absolute;
-  inset: 8px auto auto 8px;
+  inset: 7px auto auto 7px;
   z-index: 2;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   background-color: var(--text-color); /* #202020 */
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M144 144v48h160v-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192v-48C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64v192c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64h16z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
@@ -164,9 +176,12 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  /* Members-only cards are wider: WKND lays the locked teasers out in 2 columns,
-     not 4. A grid that holds any secure card is an all-locked members-only block. */
+  /* Members-only cards: WKND lays the locked teasers out in a 3-column grid
+     (each card ~388px, image ~1:1), narrower than the featured/article width but
+     wider than the 4-col article grid. A grid that holds any secure card is an
+     all-locked members-only block. Cards fill left-to-right, leaving trailing
+     columns empty when there are fewer than three. */
   .cards > ul:has(> li.cards-card-secure) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
