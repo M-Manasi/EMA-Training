@@ -24,15 +24,20 @@ import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
  */
 
 /**
- * Reads config from the block's first row: { indexPath, limit, tabs }.
+ * Reads config from the block's first row: { indexPath, pathFilter, sort, limit, tabs }.
  * All are author-set (no code change needed to tune):
  *   - a link/path to the JSON index (required to go dynamic)
+ *   - `filter: /magazine/` → which detail pages to include, matched as
+ *     `/{locale}/{segment}/<name>` (default `adventures`, so existing usage
+ *     is unchanged). Accepts `adventures`, `/adventures/`, `magazine`, etc.
+ *   - `sort: recent|title|order` → recent = newest first (lastModified desc),
+ *     title = A–Z (default), order = ascending numeric `order` column.
  *   - `limit: N`  → cap the number of cards (e.g. homepage grid)
  *   - `tabs: false` → hide the category tablist (e.g. homepage grid)
  */
 function readConfig(block) {
   const cfg = {
-    indexPath: null, limit: 0, tabs: true, isConfig: false,
+    indexPath: null, pathFilter: 'adventures', sort: 'title', limit: 0, tabs: true, isConfig: false,
   };
   const firstRow = block.firstElementChild;
   if (!firstRow) return cfg;
@@ -47,6 +52,10 @@ function readConfig(block) {
     cfg.isConfig = true;
   }
   // optional tokens anywhere in the config row (author-controlled)
+  const filterMatch = text.match(/filter\s*[:=]\s*\/?([a-z0-9-]+)\/?/i);
+  if (filterMatch) cfg.pathFilter = filterMatch[1].toLowerCase();
+  const sortMatch = text.match(/sort\s*[:=]\s*(recent|title|order)/i);
+  if (sortMatch) cfg.sort = sortMatch[1].toLowerCase();
   const limitMatch = text.match(/limit\s*[:=]\s*(\d+)/i);
   if (limitMatch) cfg.limit = Number(limitMatch[1]);
   const tabsMatch = text.match(/tabs\s*[:=]\s*(true|false|no|yes|off|on)/i);
@@ -60,14 +69,15 @@ function defaultIndexPath() {
 }
 
 /**
- * Keeps only adventure detail rows for the CURRENT locale:
- * `/{locale}/adventures/<name>` (not the listing, not other locales). The
- * locale is the two leading path segments of the listing page (e.g. /us/en).
+ * Keeps only detail rows for the CURRENT locale under a given segment:
+ * `/{locale}/{segment}/<name>` (not the listing itself, not other locales).
+ * The locale is the two leading path segments of the page (e.g. /us/en);
+ * `segment` defaults to `adventures` (existing behaviour) or e.g. `magazine`.
  */
-function isAdventureDetail(path, localePrefix) {
+function isDetailPage(path, localePrefix, segment) {
   if (!path) return false;
   const clean = path.replace(/\.html$/, '');
-  const re = new RegExp(`^${localePrefix}/adventures/[^/]+/?$`);
+  const re = new RegExp(`^${localePrefix}/${segment}/[^/]+/?$`);
   return re.test(clean);
 }
 
@@ -194,8 +204,21 @@ function render(block, cards, categoryOrder, showTabs = true) {
   block.append(grid);
 }
 
+/** Sorts index rows in place per the configured strategy. */
+function sortRows(rows, sort) {
+  if (sort === 'recent') {
+    rows.sort((a, b) => (Number(b.lastModified) || 0) - (Number(a.lastModified) || 0));
+  } else if (sort === 'order') {
+    rows.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+  } else {
+    rows.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+  }
+}
+
 /** DYNAMIC path: fetch the index, filter, sort, render. Returns true on success. */
-async function renderFromIndex(block, { indexPath, limit, tabs }) {
+async function renderFromIndex(block, {
+  indexPath, pathFilter, sort, limit, tabs,
+}) {
   const path = indexPath || defaultIndexPath();
   // current locale = two leading path segments of the listing page (/us/en)
   const localePrefix = `/${window.location.pathname.split('/').filter(Boolean).slice(0, 2).join('/')}`;
@@ -203,9 +226,9 @@ async function renderFromIndex(block, { indexPath, limit, tabs }) {
   if (!resp.ok) throw new Error(`adventures: index ${path} -> ${resp.status}`);
   const json = await resp.json();
   let rows = (Array.isArray(json) ? json : json.data || [])
-    .filter((r) => isAdventureDetail(r.path, localePrefix));
-  if (!rows.length) throw new Error('adventures: no adventure rows in index');
-  rows.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    .filter((r) => isDetailPage(r.path, localePrefix, pathFilter));
+  if (!rows.length) throw new Error(`adventures: no ${pathFilter} rows in index`);
+  sortRows(rows, sort);
   if (limit > 0) rows = rows.slice(0, limit);
 
   const cards = [];
