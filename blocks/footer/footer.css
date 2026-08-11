@@ -77,8 +77,13 @@ footer .footer-social .default-content-wrapper p {
   white-space: nowrap;
   font-size: 16px; /* WKND "FOLLOW US" — 16px/600 uppercase */
   font-weight: 600;
-  line-height: 1; /* tight box so flex align-items:center optically centres the caps against the icons */
+  line-height: 24px; /* WKND value */
   text-transform: uppercase;
+
+  /* WKND does NOT vertically centre the label — its caps sit ~10px BELOW the
+     icon-box centre (a low/bottom-weighted placement). Reproduce that offset
+     rather than centring, so it matches WKND exactly. */
+  transform: translateY(10px);
 }
 
 /* WKND: the 3 social icons share ONE light-grey box (not separate boxes),
