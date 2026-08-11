@@ -10,6 +10,11 @@ export default function decorate(block) {
       if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
       else div.className = 'cards-card-body';
     });
+    // Members-only / locked cards carry no link (the content can't be opened
+    // until you sign in). Flag them so CSS can render the WKND lock badge — a
+    // yellow top-left corner triangle with a padlock. Content-driven: no
+    // authoring change needed, mirrors WKND's cmp-teaser--secure.
+    if (!li.querySelector('a[href]')) li.classList.add('cards-card-secure');
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
