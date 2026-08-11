@@ -54,31 +54,31 @@ footer .footer-nav ul > li:first-child {
 
 /* WKND footer nav links have no hover color change */
 
-/* social — spans full width below the logo+nav row on mobile.
-   "Follow Us" is a bare text node here; WKND shows it uppercase at 18px, so
-   uppercase the section and restore normal casing on the icon links. */
+/* social — spans full width below the logo+nav row on mobile. The "Follow Us"
+   label + icon box sit inline on one row, vertically centered (WKND). WKND
+   renders the label in mixed case ("Follow Us"), 18px/400, so no uppercase. */
 footer .footer-social {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  gap: 16px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  gap: 24px;
 }
 
 /* the "Follow Us" label + icon box sit inline on one row (WKND) */
 footer .footer-social .default-content-wrapper {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
 footer .footer-social .default-content-wrapper p {
   margin: 0;
   white-space: nowrap;
-  font-size: 16px; /* WKND "Follow Us" is 16px/600 (not the 18px footer base) */
-  font-weight: 600;
+  font-size: 18px; /* WKND "Follow Us" is 18px/400, mixed case */
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* WKND: the 3 social icons share ONE light-grey box (not separate boxes),
