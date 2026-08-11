@@ -8,6 +8,13 @@ header .nav-wrapper {
   position: fixed;
   top: 0;
   left: 0;
+  transition: box-shadow 0.2s ease;
+}
+
+/* WKND drops a subtle shadow under the header once the page is scrolled (none
+   at the very top). header.js toggles .is-scrolled on scroll. */
+header .nav-wrapper.is-scrolled {
+  box-shadow: 0 8px 20px rgb(0 0 0 / 26%);
 }
 
 /* ---- Sign In modal ----

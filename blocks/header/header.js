@@ -383,4 +383,16 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper, signInModal);
+
+  // drop a shadow under the fixed header once the page is scrolled (WKND adds a
+  // subtle shadow on scroll; none at the very top). rAF-throttled scroll flag.
+  let ticking = false;
+  const updateScrolled = () => {
+    navWrapper.classList.toggle('is-scrolled', window.scrollY > 0);
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(updateScrolled); }
+  }, { passive: true });
+  updateScrolled();
 }
