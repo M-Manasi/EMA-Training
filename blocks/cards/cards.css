@@ -100,11 +100,13 @@
   position: relative;
 }
 
-/* WKND members-only images are near-square (~1:1), not the 13/10 article crop.
-   The image stays in full colour; a light grey wash is laid over it (below) so
-   the locked card reads as disabled without desaturating the photo. */
+/* WKND members-only images are a short landscape band (source caps the photo at
+   ~200px tall, cover-cropped), not the taller article crop. The image stays in
+   full colour; a light grey wash is laid over it (below) so the locked card
+   reads as disabled without desaturating the photo. */
 .cards > ul > li.cards-card-secure .cards-card-image img {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: auto;
+  height: 200px;
 }
 
 /* translucent grey overlay — the "gray shadow" on the colour image */
