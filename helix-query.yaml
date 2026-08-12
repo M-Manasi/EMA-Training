@@ -37,6 +37,12 @@ indices:
       order:
         select: head > meta[name="order"]
         value: attribute(el, 'content')
+      ctalabel:
+        select: head > meta[name="ctalabel"]
+        value: attribute(el, 'content')
+      ctatarget:
+        select: head > meta[name="ctatarget"]
+        value: attribute(el, 'content')
       lastModified:
         select: none
         value: parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')
