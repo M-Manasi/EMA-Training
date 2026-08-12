@@ -1,0 +1,18 @@
+{
+  "project": "WKND EMA Training",
+  "editUrlLabel": "Document Authoring",
+  "editUrlPattern": "https://da.live/edit#/{{org}}/{{site}}{{pathname}}",
+  "plugins": [
+    {
+      "id": "library",
+      "title": "Library",
+      "environments": [
+        "edit"
+      ],
+      "url": "https://main--ema-training--m-manasi.aem.live/tools/sidekick/library.html",
+      "includePaths": [
+        "**.docx**"
+      ]
+    }
+  ]
+}
