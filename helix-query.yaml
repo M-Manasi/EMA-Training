@@ -43,6 +43,9 @@ indices:
       ctatarget:
         select: head > meta[name="ctatarget"]
         value: attribute(el, 'content')
+      heroimage:
+        select: head > meta[name="heroimage"]
+        value: attribute(el, 'content')
       lastModified:
         select: none
         value: parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')
