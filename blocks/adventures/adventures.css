@@ -213,6 +213,34 @@ main .section .adventures-wrapper:has(.adventures-featured) {
   text-overflow: clip;
 }
 
+/* Featured CTA — WKND "See Trip": square yellow button, dark uppercase text. */
+.adventures.adventures-featured .adventures-card-body p.adventures-cta {
+  margin: 18px 0 0;
+  line-height: 0;
+}
+
+.adventures.adventures-featured .adventures-card-body p.adventures-cta > a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.adventures.adventures-featured .adventures-card-body p.adventures-cta > a:hover,
+.adventures.adventures-featured .adventures-card-body p.adventures-cta > a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
 /* Tablet / mid: taller fixed-height image. */
 @media (width >= 600px) {
   .adventures.adventures-featured .adventures-card-image img {

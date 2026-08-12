@@ -161,6 +161,14 @@ main > div {
   margin: 40px 16px;
 }
 
+/* WKND section separator — a thin light-grey rule between sections (source:
+   cmp-separator__horizontal-rule, 1px solid #ebebeb). Authored as `---`. */
+main hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--light-color);
+}
+
 input,
 textarea,
 select,

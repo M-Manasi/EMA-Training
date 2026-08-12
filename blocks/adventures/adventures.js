@@ -86,8 +86,12 @@ function isDetailPage(path, localePrefix, segment) {
   return re.test(clean);
 }
 
-/** Builds one card article from an index row. */
-function buildCardFromData(row) {
+/** Builds one card article from an index row.
+ *  featured=true renders WKND's "Next Adventures" hero: uses `heroimage` (a
+ *  curated teaser image distinct from the card image) when present, a plain
+ *  (non-linked) title, and an explicit "See Trip" CTA button from
+ *  `ctalabel`/`ctatarget` — instead of the whole-card link overlay. */
+function buildCardFromData(row, featured = false) {
   const card = document.createElement('article');
   card.className = 'adventures-card';
   const category = (row.category || '').trim();
@@ -95,18 +99,24 @@ function buildCardFromData(row) {
 
   const imgWrap = document.createElement('div');
   imgWrap.className = 'adventures-card-image';
-  if (row.image) {
-    const pic = createOptimizedPicture(row.image, row.title || '', false, [{ width: '750' }]);
+  const imgSrc = (featured && row.heroimage) ? row.heroimage : row.image;
+  if (imgSrc) {
+    const pic = createOptimizedPicture(imgSrc, row.title || '', featured, [{ width: featured ? '2000' : '750' }]);
     imgWrap.append(pic);
   }
 
   const body = document.createElement('div');
   body.className = 'adventures-card-body';
   const h3 = document.createElement('h3');
-  const titleLink = document.createElement('a');
-  titleLink.href = row.path;
-  titleLink.textContent = row.title || '';
-  h3.append(titleLink);
+  if (featured) {
+    // WKND's featured teaser title is plain text (not a link).
+    h3.textContent = row.title || '';
+  } else {
+    const titleLink = document.createElement('a');
+    titleLink.href = row.path;
+    titleLink.textContent = row.title || '';
+    h3.append(titleLink);
+  }
   body.append(h3);
   if (row.description) {
     const p = document.createElement('p');
@@ -114,12 +124,23 @@ function buildCardFromData(row) {
     body.append(p);
   }
 
-  // whole-card link overlay (matches WKND's linked cards)
-  const overlay = document.createElement('a');
-  overlay.className = 'adventures-card-link';
-  overlay.href = row.path;
-  overlay.setAttribute('aria-label', row.title || 'Adventure');
-  imgWrap.prepend(overlay);
+  if (featured) {
+    // Explicit CTA button (WKND "See Trip"); falls back to the detail path.
+    const ctaP = document.createElement('p');
+    ctaP.className = 'adventures-cta';
+    const cta = document.createElement('a');
+    cta.href = row.ctatarget || row.path;
+    cta.textContent = row.ctalabel || 'See Trip';
+    ctaP.append(cta);
+    body.append(ctaP);
+  } else {
+    // whole-card link overlay (matches WKND's linked grid cards)
+    const overlay = document.createElement('a');
+    overlay.className = 'adventures-card-link';
+    overlay.href = row.path;
+    overlay.setAttribute('aria-label', row.title || 'Adventure');
+    imgWrap.prepend(overlay);
+  }
 
   card.append(imgWrap, body);
   return { card, category };
@@ -238,10 +259,11 @@ async function renderFromIndex(block, {
   sortRows(rows, sort);
   if (limit > 0) rows = rows.slice(0, limit);
 
+  const featured = block.classList.contains('adventures-featured');
   const cards = [];
   const categoryOrder = [];
   rows.forEach((row) => {
-    const { card, category } = buildCardFromData(row);
+    const { card, category } = buildCardFromData(row, featured);
     if (category && !categoryOrder.includes(category)) categoryOrder.push(category);
     cards.push(card);
   });
