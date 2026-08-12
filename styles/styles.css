@@ -169,6 +169,16 @@ main hr {
   border-top: 1px solid var(--light-color);
 }
 
+/* Section with `style: separator-top` (section-metadata) draws WKND's separator
+   rule above it — the DA pipeline strips bare <hr>, so this is the reliable way
+   to place the Recent-Articles/Next-Adventures divider. The 1px rule spans the
+   content column and sits with WKND's spacing above the section. */
+main .section.separator-top {
+  border-top: 1px solid var(--light-color);
+  margin-top: 40px;
+  padding-top: 40px;
+}
+
 input,
 textarea,
 select,
