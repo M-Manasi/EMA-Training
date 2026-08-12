@@ -139,37 +139,109 @@
 }
 
 /* ---- Featured variant (homepage "Next Adventures") ----
-   A single full-width card rendered as a hero: image + text side by side on
-   desktop, stacked on mobile. Reuses the same block/index; only the layout
-   differs, so it matches WKND's featured-adventure look instead of a lone card. */
+   WKND renders this as a full-bleed HERO (not a card): a full-width banner
+   image with a white content box overlapping its bottom on desktop, Asar
+   title-case heading, sentence-case description. Values mirror the hero block
+   (getComputedStyle on the WKND source teaser). Only this variant differs;
+   the grid/listing card styles above are untouched. */
+
+/* Full-bleed: neutralise the section max-width/gutter for the featured block
+   only. The block shares its section with the "Next Adventures" heading, so
+   scope the override to the featured wrapper and beat the global
+   `main > .section > div` max-width rule. */
+main .section .adventures-featured-wrapper,
+main .section.adventures-featured-container > div:has(.adventures-featured) {
+  max-width: none;
+  padding: 0;
+}
+
 .adventures.adventures-featured .adventures-grid {
-  grid-template-columns: minmax(0, 1fr);
+  display: block;
   gap: 0;
 }
 
-.adventures.adventures-featured .adventures-card-body {
-  padding: 24px 0 0;
+.adventures.adventures-featured .adventures-card {
+  display: block;
 }
 
+/* Image: full-bleed, natural aspect on mobile. */
+.adventures.adventures-featured .adventures-card-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1293 / 862;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Content: dark text, flows below the image on mobile. */
+.adventures.adventures-featured .adventures-card-body {
+  position: relative;
+  z-index: 1;
+  padding: 0 14px;
+  margin: 0;
+}
+
+/* Heading: Asar serif 36px, title-case (override the card's uppercase h3). */
+.adventures.adventures-featured .adventures-card-body h3 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+.adventures.adventures-featured .adventures-card-body h3 a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Description: Source Sans 18px, sentence-case, not truncated
+   (override the card's 14px uppercase single-line ellipsis). */
+.adventures.adventures-featured .adventures-card-body p {
+  margin: 18px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 31.5px;
+  text-transform: none;
+  color: var(--text-color);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Tablet / mid: taller fixed-height image. */
+@media (width >= 600px) {
+  .adventures.adventures-featured .adventures-card-image img {
+    height: 400px;
+    aspect-ratio: auto;
+  }
+}
+
+/* Desktop: fixed 640px image + overlapping white content box pinned to the
+   image bottom (matches WKND's imagebottom hero). */
 @media (width >= 900px) {
-  .adventures.adventures-featured .adventures-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .adventures.adventures-featured .adventures-card {
+    position: relative;
+    margin-bottom: 27px;
   }
 
-  .adventures.adventures-featured .adventures-card {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 48px;
+  .adventures.adventures-featured .adventures-card-image img {
+    height: 640px;
   }
 
   .adventures.adventures-featured .adventures-card-body {
-    padding: 0;
-  }
-
-  /* the featured description is not truncated (unlike grid cards) */
-  .adventures.adventures-featured .adventures-card-body p {
-    white-space: normal;
-    overflow: visible;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1192px;
+    margin: 0 auto;
+    padding: 28px;
+    background-color: var(--background-color);
   }
 }
