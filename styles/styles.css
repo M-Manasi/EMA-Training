@@ -180,6 +180,23 @@ a:hover {
   text-decoration: underline;
 }
 
+/* WKND section-title spacing — default-content headings that introduce a block
+   ("Recent Articles", "Next Adventures", "Where do you want to go?") use WKND's
+   exact title rhythm: line-height 1.5, margin 27px top / 13.5px bottom
+   (source: cmp-title). Scoped to first-child section headings so body
+   headings inside blocks are unaffected. */
+main .default-content-wrapper > h2:first-child,
+main .default-content-wrapper > h3:first-child {
+  margin-top: 27px;
+  margin-bottom: 13.5px;
+  line-height: 1.5;
+}
+
+/* "Where do you want to go?" is an h3 at 24px on WKND (our global h3 is 28px). */
+main .default-content-wrapper > h3:first-child {
+  font-size: var(--heading-font-size-m); /* 24px */
+}
+
 /* WKND section-title accent — the section headings that introduce a block
    ("Recent Articles", "Next Adventures") get a short yellow underline bar
    (source: cmp-title--underline). These are h2 default-content headings; the
