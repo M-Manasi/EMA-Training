@@ -110,8 +110,100 @@ function createSlide(row, slideIndex, carouselId) {
   return slide;
 }
 
+/**
+ * Reads a config row (a link/path to the JSON index). Present => dynamic.
+ * Optional `filter:` token picks the entry-page segment (default `carousel`).
+ */
+function readConfig(block) {
+  const cfg = { indexPath: null, pathFilter: 'carousel', isConfig: false };
+  const firstRow = block.firstElementChild;
+  if (!firstRow) return cfg;
+  const link = firstRow.querySelector('a[href]');
+  const text = firstRow.textContent.trim();
+  const cells = [...firstRow.children];
+  if (link && /\.json(\?|$)/i.test(link.getAttribute('href'))) {
+    cfg.indexPath = link.getAttribute('href');
+    cfg.isConfig = true;
+  } else if (cells.length === 1 && /\.json(\?|$)/i.test(text)) {
+    cfg.indexPath = text;
+    cfg.isConfig = true;
+  }
+  const filterMatch = text.match(/filter\s*[:=]\s*\/?([a-z0-9-]+)\/?/i);
+  if (filterMatch) cfg.pathFilter = filterMatch[1].toLowerCase();
+  return cfg;
+}
+
+/** Keeps only entry rows for the current locale under /{locale}/{segment}/<name>. */
+function isEntryPage(path, localePrefix, segment) {
+  if (!path) return false;
+  const clean = path.replace(/\.html$/, '');
+  return new RegExp(`^${localePrefix}/${segment}/[^/]+/?$`).test(clean);
+}
+
+/** Builds a slide row (image div + content div) matching the authored shape. */
+function buildSlideRow(row) {
+  const wrapper = document.createElement('div');
+  const imageDiv = document.createElement('div');
+  if (row.image) {
+    const pic = document.createElement('picture');
+    const img = document.createElement('img');
+    img.src = row.image;
+    img.alt = row.title || '';
+    pic.append(img);
+    imageDiv.append(pic);
+  }
+  const contentDiv = document.createElement('div');
+  const h = document.createElement('h2');
+  h.textContent = row.title || '';
+  contentDiv.append(h);
+  if (row.description) {
+    const p = document.createElement('p');
+    p.textContent = row.description;
+    contentDiv.append(p);
+  }
+  if (row.ctalabel && row.ctatarget) {
+    const p = document.createElement('p');
+    const a = document.createElement('a');
+    a.href = row.ctatarget;
+    a.textContent = row.ctalabel;
+    p.append(a);
+    contentDiv.append(p);
+  }
+  wrapper.append(imageDiv, contentDiv);
+  return wrapper;
+}
+
+/**
+ * DYNAMIC: fetch the index, filter to the current locale's carousel entry
+ * pages, sort by `order`, and replace the block's children with slide rows.
+ * Returns true on success; throws so decorate() can fall back to static rows.
+ */
+async function loadDynamicSlides(block, { indexPath, pathFilter }) {
+  const path = indexPath || '/query-index.json';
+  const localePrefix = `/${window.location.pathname.split('/').filter(Boolean).slice(0, 2).join('/')}`;
+  const resp = await fetch(path);
+  if (!resp.ok) throw new Error(`carousel-hero: index ${path} -> ${resp.status}`);
+  const json = await resp.json();
+  const rows = (Array.isArray(json) ? json : json.data || [])
+    .filter((r) => isEntryPage(r.path, localePrefix, pathFilter));
+  if (!rows.length) throw new Error(`carousel-hero: no ${pathFilter} rows in index`);
+  rows.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+  block.textContent = '';
+  rows.forEach((r) => block.append(buildSlideRow(r)));
+}
+
 let carouselId = 0;
 export default async function decorate(block) {
+  const cfg = readConfig(block);
+  if (cfg.isConfig) {
+    try {
+      await loadDynamicSlides(block, cfg);
+    } catch (e) {
+      // config row present but index failed — drop it so stale authored rows
+      // (if any) below the config row still render; otherwise block is empty.
+      if (block.firstElementChild) block.firstElementChild.remove();
+    }
+  }
   carouselId += 1;
   block.setAttribute('id', `carousel-hero-${carouselId}`);
   const rows = block.querySelectorAll(':scope > div');
