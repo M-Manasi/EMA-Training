@@ -9,10 +9,7 @@
       "environments": [
         "edit"
       ],
-      "url": "https://main--ema-training--m-manasi.aem.live/tools/sidekick/library.html",
-      "includePaths": [
-        "**.docx**"
-      ]
+      "url": "https://main--ema-training--m-manasi.aem.live/tools/sidekick/library.html"
     }
   ]
 }
