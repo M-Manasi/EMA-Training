@@ -266,8 +266,14 @@ header nav .nav-locale-toggle::after {
   height: 6px;
   border: 2px solid currentcolor;
   border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  transform: translateY(-2px) rotate(45deg); /* pointing down (chevron ⌄) */
+  transition: transform 0.2s ease;
   margin-left: 2px;
+}
+
+/* flip the chevron up (∧) when the locale panel is open */
+header nav .nav-locale-toggle[aria-expanded='true']::after {
+  transform: translateY(1px) rotate(-135deg);
 }
 
 /* WKND-style locale panel: country rows with flag + name + pipe-separated codes */

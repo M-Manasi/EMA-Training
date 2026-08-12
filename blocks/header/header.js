@@ -184,8 +184,15 @@ function decorateLocaleSelector(navTools) {
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-locale';
 
-  // toggle: current locale (first entry) flag + code
-  const current = entries[0];
+  // toggle reflects the CURRENT page's locale: match the page's leading path
+  // segments (/xx/yy) against each entry's href; fall back to the first entry.
+  const here = window.location.pathname.replace(/\.html$/, '');
+  const localeOf = (href) => {
+    const seg = (href || '').replace(/\.html$/, '').split('/').filter(Boolean);
+    return seg.length >= 2 ? `/${seg[0]}/${seg[1]}` : '';
+  };
+  const hereLocale = localeOf(here);
+  const current = entries.find((e) => localeOf(e.href) === hereLocale) || entries[0];
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'nav-locale-toggle';
