@@ -236,17 +236,17 @@ main .section .adventures-wrapper:has(.adventures-featured) {
     width: 100%;
     max-width: 1192px;
     margin: -180px auto 0;
-    padding: 0 28px;
+    padding: 28px;
     background-color: var(--background-color);
   }
 
-  /* re-apply WKND vertical padding inside the box via first/last child margins
-     (WKND content box is 220px tall: 28px top, title, desc, 28px bottom). */
+  /* Reset child margins inside the padded box so vertical rhythm matches WKND
+     (28px box padding top/bottom; title flush to top padding; 18px title→desc). */
   .adventures.adventures-featured .adventures-card-body h3 {
-    margin-top: 28px;
+    margin: 0;
   }
 
-  .adventures.adventures-featured .adventures-card-body p:last-child {
-    margin-bottom: 28px;
+  .adventures.adventures-featured .adventures-card-body p {
+    margin: 18px 0 0;
   }
 }
