@@ -146,11 +146,12 @@
    the grid/listing card styles above are untouched. */
 
 /* Full-bleed: neutralise the section max-width/gutter for the featured block
-   only. The block shares its section with the "Next Adventures" heading, so
-   scope the override to the featured wrapper and beat the global
-   `main > .section > div` max-width rule. */
-main .section .adventures-featured-wrapper,
-main .section.adventures-featured-container > div:has(.adventures-featured) {
+   only. EDS names the wrapper after the BLOCK (adventures-wrapper), so target
+   the wrapper that contains a .adventures-featured block via :has(), and beat
+   the global `main > .section > div` max-width rule. The "Next Adventures"
+   heading lives in a separate default-content-wrapper, so it stays gutter-
+   constrained (only the image goes edge-to-edge, matching WKND). */
+main .section .adventures-wrapper:has(.adventures-featured) {
   max-width: none;
   padding: 0;
 }
@@ -220,28 +221,32 @@ main .section.adventures-featured-container > div:has(.adventures-featured) {
   }
 }
 
-/* Desktop: fixed 640px image + overlapping white content box pinned to the
-   image bottom (matches WKND's imagebottom hero). */
+/* Desktop: fixed 640px image + white content box that overlaps the image
+   bottom by 180px (matches WKND's imagebottom hero). WKND uses a relatively-
+   positioned box pulled up with a negative top margin (not absolute), centered
+   at 1192px with 0 28px padding — reproduce that exactly. */
 @media (width >= 900px) {
-  .adventures.adventures-featured .adventures-card {
-    position: relative;
-    margin-bottom: 27px;
-  }
-
   .adventures.adventures-featured .adventures-card-image img {
     height: 640px;
   }
 
   .adventures.adventures-featured .adventures-card-body {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: relative;
     box-sizing: border-box;
     width: 100%;
     max-width: 1192px;
-    margin: 0 auto;
-    padding: 28px;
+    margin: -180px auto 0;
+    padding: 0 28px;
     background-color: var(--background-color);
+  }
+
+  /* re-apply WKND vertical padding inside the box via first/last child margins
+     (WKND content box is 220px tall: 28px top, title, desc, 28px bottom). */
+  .adventures.adventures-featured .adventures-card-body h3 {
+    margin-top: 28px;
+  }
+
+  .adventures.adventures-featured .adventures-card-body p:last-child {
+    margin-bottom: 28px;
   }
 }
