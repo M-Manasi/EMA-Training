@@ -1,0 +1,72 @@
+{
+  "total": 15,
+  "offset": 0,
+  "limit": 15,
+  "data": [
+    {
+      "name": "Accordion",
+      "path": "/tools/sidekick/blocks/accordion"
+    },
+    {
+      "name": "Adventures",
+      "path": "/tools/sidekick/blocks/adventures"
+    },
+    {
+      "name": "Article Header",
+      "path": "/tools/sidekick/blocks/article-header"
+    },
+    {
+      "name": "Author Bio",
+      "path": "/tools/sidekick/blocks/author-bio"
+    },
+    {
+      "name": "Breadcrumb",
+      "path": "/tools/sidekick/blocks/breadcrumb"
+    },
+    {
+      "name": "Cards",
+      "path": "/tools/sidekick/blocks/cards"
+    },
+    {
+      "name": "Carousel Hero",
+      "path": "/tools/sidekick/blocks/carousel-hero"
+    },
+    {
+      "name": "Columns",
+      "path": "/tools/sidekick/blocks/columns"
+    },
+    {
+      "name": "Hero",
+      "path": "/tools/sidekick/blocks/hero"
+    },
+    {
+      "name": "Key Facts",
+      "path": "/tools/sidekick/blocks/key-facts"
+    },
+    {
+      "name": "Profile Card",
+      "path": "/tools/sidekick/blocks/profile-card"
+    },
+    {
+      "name": "Related",
+      "path": "/tools/sidekick/blocks/related"
+    },
+    {
+      "name": "Scope Report",
+      "path": "/tools/sidekick/blocks/scope-report"
+    },
+    {
+      "name": "Tabs",
+      "path": "/tools/sidekick/blocks/tabs"
+    },
+    {
+      "name": "Widget",
+      "path": "/tools/sidekick/blocks/widget"
+    }
+  ],
+  "columns": [
+    "name",
+    "path"
+  ],
+  ":type": "sheet"
+}
