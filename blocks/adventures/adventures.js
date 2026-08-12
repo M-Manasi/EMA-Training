@@ -34,10 +34,12 @@ import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
  *     title = A–Z (default), order = ascending numeric `order` column.
  *   - `limit: N`  → cap the number of cards (e.g. homepage grid)
  *   - `tabs: false` → hide the category tablist (e.g. homepage grid)
+ *   - `pick: <slug>` → feature ONE specific detail page (e.g. curated
+ *     "Next Adventures" = climbing-new-zealand), instead of the first N.
  */
 function readConfig(block) {
   const cfg = {
-    indexPath: null, pathFilter: 'adventures', sort: 'title', limit: 0, tabs: true, isConfig: false,
+    indexPath: null, pathFilter: 'adventures', pick: '', sort: 'title', limit: 0, tabs: true, isConfig: false,
   };
   const firstRow = block.firstElementChild;
   if (!firstRow) return cfg;
@@ -54,6 +56,9 @@ function readConfig(block) {
   // optional tokens anywhere in the config row (author-controlled)
   const filterMatch = text.match(/filter\s*[:=]\s*\/?([a-z0-9-]+)\/?/i);
   if (filterMatch) cfg.pathFilter = filterMatch[1].toLowerCase();
+  // `pick: <slug>` → feature one specific detail page (e.g. curated "Next Adventures")
+  const pickMatch = text.match(/pick\s*[:=]\s*\/?(?:[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\/)?([a-z0-9-]+)\/?/i);
+  if (pickMatch) cfg.pick = pickMatch[1].toLowerCase();
   const sortMatch = text.match(/sort\s*[:=]\s*(recent|title|order)/i);
   if (sortMatch) cfg.sort = sortMatch[1].toLowerCase();
   const limitMatch = text.match(/limit\s*[:=]\s*(\d+)/i);
@@ -217,7 +222,7 @@ function sortRows(rows, sort) {
 
 /** DYNAMIC path: fetch the index, filter, sort, render. Returns true on success. */
 async function renderFromIndex(block, {
-  indexPath, pathFilter, sort, limit, tabs,
+  indexPath, pathFilter, pick, sort, limit, tabs,
 }) {
   const path = indexPath || defaultIndexPath();
   // current locale = two leading path segments of the listing page (/us/en)
@@ -227,6 +232,8 @@ async function renderFromIndex(block, {
   const json = await resp.json();
   let rows = (Array.isArray(json) ? json : json.data || [])
     .filter((r) => isDetailPage(r.path, localePrefix, pathFilter));
+  // `pick` features one specific detail page by its slug (last path segment).
+  if (pick) rows = rows.filter((r) => r.path.replace(/\.html$/, '').replace(/\/$/, '').split('/').pop() === pick);
   if (!rows.length) throw new Error(`adventures: no ${pathFilter} rows in index`);
   sortRows(rows, sort);
   if (limit > 0) rows = rows.slice(0, limit);
