@@ -1,7 +1,7 @@
 {
-  "total": 15,
+  "total": 14,
   "offset": 0,
-  "limit": 15,
+  "limit": 14,
   "data": [
     {
       "name": "Accordion",
@@ -58,10 +58,6 @@
     {
       "name": "Tabs",
       "path": "/tools/sidekick/blocks/tabs"
-    },
-    {
-      "name": "Widget",
-      "path": "/tools/sidekick/blocks/widget"
     }
   ],
   "columns": [
